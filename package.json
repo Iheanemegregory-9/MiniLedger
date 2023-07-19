@@ -18,8 +18,11 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
+<<<<<<< HEAD
     "primeflex": "^3.3.1",
     "primeng": "^15.4.6-lts",
+=======
+>>>>>>> main
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
