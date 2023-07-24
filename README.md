@@ -1,7 +1,5 @@
 # MiniLedger - Expense and Income Management App
 
-![MiniLedger Logo](link-to-your-logo.png) (If you have a logo, replace "link-to-your-logo.png" with the actual link to your logo)
-
 Welcome to MiniLedger! This is a simple yet powerful app designed to help you manage your expenses and income efficiently. With MiniLedger, you can easily keep track of your financial transactions, categorize them, and gain insights into your spending and earnings patterns.
 
 ## Table of Contents
@@ -84,7 +82,7 @@ A: Yes, you can export your transaction history in various formats like CSV for 
 
 ## Contact
 
-For any inquiries or assistance, please contact our support team at support@miniledgerapp.com.
+For any inquiries or assistance, please contact our support team at greg@gregdevjs.com.
 
 ---
 
