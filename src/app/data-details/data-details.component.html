@@ -1,0 +1,19 @@
+<div class="flex justify-content-center align-items-center w-auto h-screen">
+
+    <p-card>
+        <div class="card flex justify-content-center gap-5 mb-5">
+            <input type="text" pInputText [(ngModel)]="data.id" />
+            <input type="text" pInputText [(ngModel)]="data.name" />
+        </div>
+        <div class="card flex justify-content-center gap-5 mb-5">
+            <input type="text" pInputText [(ngModel)]="data.price" />
+            <input type="text" pInputText [(ngModel)]="data.category" />
+        </div>
+
+        <div class="card flex justify-content-center gap-5 mb-5">
+            <p-calendar [(ngModel)]="data.date" [touchUI]="true" [readonlyInput]="true"></p-calendar>
+
+        </div>
+        <p-button class="w-full" (onClick)="updateData()">Update</p-button>
+    </p-card>
+</div>

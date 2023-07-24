@@ -18,11 +18,12 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
-<<<<<<< HEAD
+    "ag-grid-angular": "^30.0.5",
+    "ag-grid-community": "^30.0.5",
+    "file-saver": "^2.0.5",
     "primeflex": "^3.3.1",
-    "primeng": "^15.4.6-lts",
-=======
->>>>>>> main
+    "primeicons": "^6.0.1",
+    "primeng": "^16.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
