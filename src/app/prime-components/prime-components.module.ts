@@ -18,6 +18,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 
 
@@ -45,7 +47,8 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
     CheckboxModule,
     RadioButtonModule,
     DialogModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    DropdownModule
   ],
   exports:[
     ButtonModule,
@@ -65,7 +68,8 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
     CheckboxModule,
     RadioButtonModule,
     DialogModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    DropdownModule
   ]
 })
 export class PrimeComponentsModule { }
