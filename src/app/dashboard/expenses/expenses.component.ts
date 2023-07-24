@@ -12,12 +12,13 @@ import { ServiceService } from 'src/app/shared/service.service';
 export class ExpensesComponent implements OnInit {
 
 
-  visible = false;
+  visible: boolean = false;
   data:any;
   dataId:any;
   // cols!:any[];
   tableItem!:any[];
   id!:string;
+  category:any[] = []
 
 
 
@@ -35,6 +36,14 @@ export class ExpensesComponent implements OnInit {
       this.dataId = param.get('id');
       this.data = this.service.tableItem.find(x => x.id == this.dataId);
     })
+
+    this.category = [
+      { name: 'New York' },
+      { name: 'Rome' },
+      { name: 'London' },
+      { name: 'Istanbul' },
+      { name: 'Paris' }
+  ];
     
   }
 
@@ -51,6 +60,10 @@ export class ExpensesComponent implements OnInit {
 
   edit(){
     this.route.navigate(['/edit/{{id}}'])
+  }
+
+  adddNew(){
+    this.visible = true;
   }
 
   

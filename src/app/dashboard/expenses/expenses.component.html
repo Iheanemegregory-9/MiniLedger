@@ -1,5 +1,46 @@
 <app-header></app-header>
 
+<div class="flex justify-content-around align-items-center h-auto pt-2 pb-2">
+    <div class="img">
+        <img src="../../../assets/undraw_Finance_re_gnv2.png" width="200px" alt="">
+    </div>
+    <div class="btn ">
+        <p-button (click)="adddNew()">Add New Expense</p-button>
+    </div>
+</div>
+
+
+<!-- add new expense dialog form -->
+
+<div class="card flex justify-content-center">
+    
+    <p-dialog header="Add New Expense" [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="true" [resizable]="true" [maximizable]="true">
+        <ng-template pTemplate="p-dialog-content">
+            <form class="grid">
+                <div class="flex gap-2 flex-column col-6">
+                    <label htmlFor="descriotion">Description</label>
+                    <input type="text" pInputText placeholder="Expense decription" id="descriotion" />
+                </div>
+                <div class="flex gap-2 flex-column col-6">
+                    <label htmlFor="descriotion">Category</label>
+                    <p-dropdown [options]="category" placeholder="Select a City" [editable]="true" optionLabel="name"></p-dropdown>
+                </div>
+                <div class="flex gap-2 flex-column col-12 w-full">
+                    <label htmlFor="descriotion">Price</label>
+                    <p-inputNumber inputId="integeronly" class="w-full"> </p-inputNumber>
+                </div>
+                <div class="flex gap-2 flex-column col-12 w-full">
+                    <label htmlFor="descriotion">Date</label>
+                    <p-calendar></p-calendar>
+                </div>
+            </form>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="visible = false" label="Add" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-dialog>
+</div>
+
  <p-table [value]="tableItem" [columns]="cols" [tableStyle]="{ 'min-width': '50rem' }"
 
         [paginator]="true"
@@ -9,7 +50,7 @@
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
          [rowsPerPageOptions]="[5, 10, 20]" 
 
-        class="p-datatable-sm p-datatable-loading-icon"
+        
         
 
 >   
@@ -29,6 +70,7 @@
             <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
             </td>
+            
         </tr>
     </ng-template>
 </p-table>
