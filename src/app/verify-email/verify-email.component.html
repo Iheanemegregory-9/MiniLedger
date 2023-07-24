@@ -1,0 +1,12 @@
+<div class="card flex flex-wrap justify-content-center align-content-center h-screen">
+    <p-card header="Please enter your email to verify your account">
+        <form action="">
+            <div class="flex flex-column gap-3 mb-3 animate-width animation-duration-500">
+                <label htmlFor="username">Email</label>
+                <input pInputText id="username" aria-describedby="username-help" />
+                <!-- <small id="username-help">Enter your email address.</small> -->
+            </div>
+            <p-button (onClick)="onVerify()">Send Verification Mail</p-button>
+        </form>
+    </p-card>
+</div>
