@@ -1,5 +1,6 @@
 import { Component, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ServiceService } from 'src/app/shared/service.service';
 
 
@@ -12,38 +13,33 @@ import { ServiceService } from 'src/app/shared/service.service';
 export class ExpensesComponent implements OnInit {
 
 
+  description!:string;
+  category!:string
+  price!:number  
+  date:Date = new Date();
+  loading:boolean = false
+
+  tableItem!:Observable<any>
+
+
+
   visible: boolean = false;
   data:any;
   dataId:any;
-  // cols!:any[];
-  tableItem!:any[];
-  id!:string;
-  category:any[] = []
-
-
-
-  
 
 
   constructor(private route: Router, private service: ServiceService, private activatedRoute: ActivatedRoute){ }
 
-
+ 
   ngOnInit(): void {
-
-    this.tableItem = this.service.tableItem
     
     this.activatedRoute.paramMap.subscribe((param)=>{
       this.dataId = param.get('id');
-      this.data = this.service.tableItem.find(x => x.id == this.dataId);
+      this.data = this.service.getExpenses();
     })
 
-    this.category = [
-      { name: 'New York' },
-      { name: 'Rome' },
-      { name: 'London' },
-      { name: 'Istanbul' },
-      { name: 'Paris' }
-  ];
+
+    this.getExpenses()
     
   }
 
@@ -62,8 +58,27 @@ export class ExpensesComponent implements OnInit {
     this.route.navigate(['/edit/{{id}}'])
   }
 
-  adddNew(){
+
+  openForm(){
     this.visible = true;
+  }
+  
+  adddNewExpence(description:string, category:any, price:number, date:Date){
+    this.loading = true
+    this.service.createNewExpense(description, category, price, date).then((res)=>{
+      this.visible = false;
+      console.log(res);  
+    }, err =>{
+      console.log(err);
+      
+    })
+  }
+
+  getExpenses(){
+    this.service.getExpenses().subscribe((res)=>{
+      console.log(res);
+      this.tableItem = this.service.expneses
+    })
   }
 
   
