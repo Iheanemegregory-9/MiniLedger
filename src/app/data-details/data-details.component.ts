@@ -22,7 +22,7 @@ export class DataDetailsComponent implements OnInit {
   ngOnInit(): void {
   this.activatedRoute.paramMap.subscribe((param)=>{
     this.dataId = param.get('id');
-    this.data = this.sharedService.tableItem.find(x => x.id == this.dataId);
+    this.data = this.sharedService.getExpenses()
   })
   
 
