@@ -10,9 +10,9 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { DataDetailsComponent } from './data-details/data-details.component';
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
+  {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'dashboard', component: HomeComponent},
+  {path: '', component: HomeComponent},
   {path: 'income', component: IncomeComponent},
   {path: 'expenses', component: ExpensesComponent},
   {path: 'comming-soon', component: ComingSoonComponent},

@@ -1,35 +1,23 @@
-<div class=" container flex gap-3 h-screen">
-    <div class="img-slider w-6">
-        <img src="https://img.freepik.com/free-psd/digital-marketing-agency-corporate-social-media-banner-instagram-post-template_106176-2303.jpg?w=740&t=st=1689926325~exp=1689926925~hmac=fb826e69fc932c203836886e784b597b630533dff283cad61af5130744edb31b" alt="" class="w-full h-full fadein animation-duration-1000 ">
-    </div> 
-    <div class="login-form w-6 h-screen flex flex-column justify-content-center	align-content-center py-5 px-5">
-        <!-- <p-card header="Login to your account" class="bg-black-alpha-20" > -->
-            <form class="">
-                <!-- <div class="flex flex-column gap-3 mb-3">
-                    <label htmlFor="username">Username</label>
-                    <input pInputText id="username" aria-describedby="username-help"/>
-                    <small id="username-help">Enter your username to reset your password.</small>
-                </div> -->
-                <div class="flex flex-column gap-3 mb-3 animate-width animation-duration-500">
-                    <label htmlFor="username">Email</label>
-                    <input pInputText id="username" aria-describedby="username-help" />
-                    <!-- <small id="username-help">Enter your email address.</small> -->
-                </div>
-                <div class="flex flex-column gap-3 mb-3 animate-width animation-duration-500">
-                    <label htmlFor="username">Password</label>
-                    <input pInputText id="username" aria-describedby="username-help" />
-                    <!-- <small id="username-help">Enter your username to reset your password.</small> -->
-                </div>
+<div class="flex justify-content-center align-item-center h-screen ">
+    <p-card header="Login to your account" class="w-full xl:w-6" >
+        <form class="">
+            <div class="flex flex-column gap-3 mb-3 animate-width animation-duration-500">
+                <label htmlFor="username">Email</label>
+                <input pInputText id="username" aria-describedby="username-help" />
+                <!-- <small id="username-help">Enter your email address.</small> -->
+            </div>
+            <div class="flex flex-column gap-3 mb-3 animate-width animation-duration-500">
+                <label htmlFor="username">Password</label>
+                <input pInputText id="username" aria-describedby="username-help" />
+                <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+            </div>
 
-                <p-button (onClick)="createAccount()" class="animate-width animation-duration-500">Create Account</p-button>
-            </form>
-            <h5 class="mt-4">Already have an account? <a routerLink="/login">Signin here</a></h5>
-        <!-- </p-card> -->
+            <p-button (onClick)="createAccount()" class="animate-width animation-duration-500">Sign Up</p-button>
+        </form>
+        <h5 class="mt-4">Already have an account? <a routerLink="/login">Signin here</a></h5>
+    </p-card>
 
-        <div class="card">
-            <p-messages [(value)]="messages" [enableService]="true" [closable]="false"></p-messages>
-        </div>
+    <div class="card">
+        <p-messages [(value)]="messages" [enableService]="true" [closable]="false"></p-messages>
     </div>
-
-
 </div>

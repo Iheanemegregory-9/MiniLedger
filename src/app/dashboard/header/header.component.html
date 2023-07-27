@@ -1,7 +1,7 @@
 <div class="menu card">
     <p-menubar [model]="menuItems">
         <ng-template pTemplate="end">
-            <p-button label="Get Started" icon="pi pi-sign-out" [loading]="loading" (onClick)="navHome()"></p-button>
+            <p-button label="Get Started" icon="pi pi-sign-out" [loading]="loading" routerLink="/register"></p-button>
         </ng-template>
     </p-menubar> 
 </div>

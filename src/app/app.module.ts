@@ -17,7 +17,12 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { FormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { DataDetailsComponent } from './data-details/data-details.component';
-// import {Fileser}
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideMessaging,getMessaging } from '@angular/fire/messaging';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,12 @@ import { DataDetailsComponent } from './data-details/data-details.component';
     AppRoutingModule,
     PrimeComponentsModule,
     FormsModule,
-    AgGridModule
+    AgGridModule,
+    GridModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideMessaging(() => getMessaging())
   ],
   providers: [],
   bootstrap: [AppComponent]
