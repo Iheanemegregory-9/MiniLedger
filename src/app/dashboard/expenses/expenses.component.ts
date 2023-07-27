@@ -1,7 +1,10 @@
+import { L10n } from '@syncfusion/ej2-base';
 import { Component, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ServiceService } from 'src/app/shared/service.service';
+import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { FilterSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { EditSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 
 
 
@@ -12,6 +15,14 @@ import { ServiceService } from 'src/app/shared/service.service';
 })
 export class ExpensesComponent implements OnInit {
 
+  public pageSettings?:PageSettingsModel;
+  public filterOptions?: FilterSettingsModel;
+  public editSettings?: EditSettingsModel;
+  public toolbar?: ToolbarItems[];
+
+
+  
+
 
   description!:string;
   category!:string
@@ -19,7 +30,7 @@ export class ExpensesComponent implements OnInit {
   date:Date = new Date();
   loading:boolean = false
 
-  tableItem!:Observable<any>
+  tableItem!:any[]
 
 
 
@@ -28,35 +39,24 @@ export class ExpensesComponent implements OnInit {
   dataId:any;
 
 
-  constructor(private route: Router, private service: ServiceService, private activatedRoute: ActivatedRoute){ }
+  constructor(
+    private route: Router, 
+    private service: ServiceService, 
+    private activatedRoute: ActivatedRoute
+    ){ }
 
  
   ngOnInit(): void {
-    
-    this.activatedRoute.paramMap.subscribe((param)=>{
-      this.dataId = param.get('id');
-      this.data = this.service.getExpenses();
-    })
-
-
     this.getExpenses()
-    
+    this.pageSettings = {
+      pageSize: 5
+    }
+
+    this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
+    this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
+
   }
 
-  cols:any[] = [
-    // {field: 's/n', header: 'S/N'},
-    { field: 'id', header: 'ID' },
-    { field: 'name', header: 'Name' },
-    { field: 'category', header: 'Category' },
-    { field: 'price', header: 'Price' },
-    { field: 'date', header: 'Date' },
-  ]
-
-
-
-  edit(){
-    this.route.navigate(['/edit/{{id}}'])
-  }
 
 
   openForm(){
@@ -70,14 +70,16 @@ export class ExpensesComponent implements OnInit {
       console.log(res);  
     }, err =>{
       console.log(err);
-      
     })
+
+    this.loading = false;
   }
 
   getExpenses(){
     this.service.getExpenses().subscribe((res)=>{
       console.log(res);
-      this.tableItem = this.service.expneses
+      
+      this.tableItem = res;
     })
   }
 
