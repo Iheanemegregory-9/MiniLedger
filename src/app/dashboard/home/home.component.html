@@ -1,37 +1,27 @@
 <app-header></app-header>
-<!-- <div class="h-6">
-    <p-galleria [numVisible]="1" [autoPlay]="true" [circular]="true" [showItemNavigators]="false" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'width': '100%; display: block;' }" [value]="images" class="h-6">
-        <ng-template pTemplate="item" let-image>
-            <p-card [header]="image.message">
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum reprehenderit unde facilis, facere tenetur enim libero maiores ipsam provident molestias.
-                </p>
-            </p-card>
-        </ng-template>
-    </p-galleria>
-</div> -->
 
-<div class="xl:flex lg:flex md:flex xl:align-content-center lg:align-content-center md:align-content-center xl:justify-content-center lg:justify-content-center md:justify-content-center xl:px-5 xl:flex-column lg:px-5 lg:flex-column md:px-5 md:flex-column bg-black-alpha-30 h-screen flex justify-content-between flex-column align-content-center px-3 m-0">
+<div class="flex align-content-center align-content-center align-content-center bg-black-alpha-30 h-screen flex justify-content-between flex-column align-content-center px-3">
    <div class="hero-text flex flex-column justify-content-center align-content-center fadeinup animation-duration-500">
-    <h3 class="hero-welcome mb-4 text-center xl:text-8xl text-6xl line-height-1">
+    <h3 class="hero-welcome mb-3 text-center xl:text-8xl lg:text-7xl md:text-7xl text-5xl line-height-1">
         Take Control Of Your <br> Finances with Ease
     </h3>
-    <p class="text-center">Discover a seamless way to manage your expenses and income with our cutting-edge app, <br> and streamline your expenses and income effortlessly with our intuitive manage</p>
+    <p class="text-center text-md text-justify-center">Discover a seamless way to manage your expenses and income with our cutting-edge app, <br> and streamline your expenses and income effortlessly with our intuitive manage</p>
     
     <div class="btns flex justify-content-center align-content-center w-full">
         <!-- <p-button routerLink="/income">Manage Income</p-button> -->
         <p-button routerLink="/register">Get Started</p-button>
     </div>
+    <i class="pi pi-angle-double-down text-center align-content-center justify-content-center mt-4 hidden md:block fadeoutdown animation-duration-2000 animation-iteration-infinite text-xl"></i>
 </div>
 </div>
 
 <!-- Expenses Panel  -->
 
-<div class="xl:flex lg:flex md:flex px-5 justify-content-betweenxl align-content-center gap-4 py-5 sm:flex-column xl:flex-row md:flex-row lg:flex-row">
+<div class="flex px-5 justify-content-betweenxl align-content-center gap-4 py-5 flex-column xl:flex-row md:flex-row lg:flex-row md:flex-column">
 
     <div class="img">
-        <p-card class="w-full">
-            <img src="../../../assets/african-american-man-working-monstera-plant.jpg" alt="Designed by Freepick" class="border-round-md w-17rem xl:w-30rem md:w-30rem lg:w-30rem" >
+        <p-card class="w-full md:w-auto">
+            <img src="../../../assets/african-american-man-working-monstera-plant.jpg" alt="Designed by Freepick" class="border-round-md w-14rem xl:w-30rem lg:w-30rem md:w-full md:h-22rem">
         </p-card>
     </div>
     <div class="contents">
@@ -55,7 +45,7 @@
 <div class="xl:flex px-5 justify-content-betweenxl align-content-center gap-4 py-5 sm:flex-column xl:flex-row bg-black-alpha-30">
     <div class="img mt-2">
         <p-card class="w-full">
-            <img src="../../../assets/african-american-man-working-monstera-plant.jpg" alt="Designed by Freepick" class="border-round-md w-17rem xl:w-30rem">
+            <img src="../../../assets/african-american-man-working-monstera-plant.jpg" alt="Designed by Freepick" class="border-round-md w-14rem xl:w-30rem md:w-full md:h-22rem">
         </p-card>
     </div>
 
@@ -76,25 +66,33 @@
 
 <!-- FAQ-SECTION -->
 
-<!-- <div class="faq flex align-content-center justify-content-center w-7">
+ <div class="faq flex align-content-center justify-content-center w-full px-3 flex-column">
+    <h1>Frequently Asked Questions</h1>
         <p-accordion [activeIndex]="1">
-            <p-accordionTab header="Header I">
+            <p-accordionTab header="Is MiniLedger free to use?">
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Yes MiniLedger is free to use.
                 </p>
             </p-accordionTab>
-            <p-accordionTab header="Header II">
+            <p-accordionTab header="Is my financial data safe with MiniLedger?">
                 <p>
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                    ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+                    Absolutely! We prioritize the security and privacy of your financial data. All information is encrypted and stored securely using industry-standard protocols.
                 </p>
             </p-accordionTab>
-            <p-accordionTab header="Header III">
+            <p-accordionTab header="Can I access MiniLedger from multiple devices?">
                 <p>
-                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
-                    qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+                    Yes, you can access MiniLedger from any device with an internet connection. Whether it's your desktop, laptop, tablet, or smartphone, your data will be synced across all your devices.
+                </p>
+            </p-accordionTab>
+            <p-accordionTab header="How do I categorize my expenses and income?">
+                <p>
+                    Categorizing expenses and income is easy with MiniLedger. Simply select a transaction, choose the appropriate category from our predefined list, or create custom labels that suit your needs.
+                </p>
+            </p-accordionTab>
+            <p-accordionTab header="How can I contact MiniLedger's support team?">
+                <p>
+                    MiniLedger is a solo project develeoped by Chibuzor Gregory Iheaneme, you can reach out to him via his <a href="https://www.linkedin.com/in/chibuzor-gregory-iheaneme/" target="_blank">LinkedIn <i class="pi pi-external-link text-sm"></i></a>  account 
                 </p>
             </p-accordionTab>
         </p-accordion>
-</div> -->
+</div>

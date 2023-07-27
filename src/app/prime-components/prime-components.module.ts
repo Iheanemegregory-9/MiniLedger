@@ -19,7 +19,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { SkeletonModule } from 'primeng/skeleton';
 
 
 
@@ -48,7 +48,8 @@ import { DropdownModule } from 'primeng/dropdown';
     RadioButtonModule,
     DialogModule,
     DynamicDialogModule,
-    DropdownModule
+    DropdownModule,
+    SkeletonModule
   ],
   exports:[
     ButtonModule,
@@ -69,7 +70,8 @@ import { DropdownModule } from 'primeng/dropdown';
     RadioButtonModule,
     DialogModule,
     DynamicDialogModule,
-    DropdownModule
+    DropdownModule,
+    SkeletonModule
   ]
 })
 export class PrimeComponentsModule { }
