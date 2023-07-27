@@ -14,15 +14,15 @@ export class DataDetailsComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private sharedService : ServiceService, private route: Router){}
 
-  data:any;
-  dataId:any;
+  
 
   
 
   ngOnInit(): void {
   this.activatedRoute.paramMap.subscribe((param)=>{
-    this.dataId = param.get('id');
-    this.data = this.sharedService.getExpenses()
+    
+    console.log(param);
+    
   })
   
 

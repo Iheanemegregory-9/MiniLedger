@@ -1,12 +1,54 @@
 <app-header></app-header>
 
-<div class="flex justify-content-around align-items-center pt-3 pb-3 bg-black-alpha-40">
-        
-    <div class="btn ">
-        <p-button (onClick)="openForm()">Add New Expense</p-button>
-    </div>
 
+<div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="surface-card shadow-2 p-3 border-round">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Expenses</span>
+                        <div class="text-900 font-medium text-xl">$2.100</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width:2.5rem;height:2.5rem">
+                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="surface-card shadow-2 p-3 border-round">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Income</span>
+                        <div class="text-900 font-medium text-xl">28441</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width:2.5rem;height:2.5rem">
+                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="surface-card shadow-2 p-3 border-round">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Balance</span>
+                        <div class="text-900 font-medium text-xl">152 Unread</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" style="width:2.5rem;height:2.5rem">
+                        <i class="pi pi-comment text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn ">
+            <p-button (onClick)="openForm()">Add New Expense</p-button>
+        </div>
+    </div>
 </div>
+        
+
 
 
 
@@ -21,7 +63,7 @@
                     <label htmlFor="descriotion">Description</label>
                     <input type="text" name="description" [(ngModel)]="description"  pInputText placeholder="Expense decription" id="descriotion" /> 
                 </div>
-                <div class="flex gap-2 flex-column col-6" *ngFor="let item ">
+                <div class="flex gap-2 flex-column col-6">
                     <label htmlFor="descriotion">Category</label>
                     <input placeholder="Select a Category" pInputText [(ngModel)]="category" name="category">
                 </div>
@@ -30,7 +72,7 @@
                     <p-inputNumber [(ngModel)]="price" inputId="integeronly" class="w-full" name="price"> </p-inputNumber>
                 </div>
                 <div class="flex gap-2 flex-column col-12 w-full">
-                    <label htmlFor="descriotion">Date</label>
+                    <label htmlFor="descriotion">Date</label> 
                     <p-calendar [(ngModel)]="date" name="calender"></p-calendar>
                 </div>
             </form>
@@ -41,53 +83,27 @@
     </p-dialog>
 </div>
 
- <!-- <p-table [value]=" tableItem | async"  [columns]="cols" [tableStyle]="{ 'min-width': '50rem' }"
 
-        [paginator]="true"
-        [rows]="5"
-        [showCurrentPageReport]="true"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-         [rowsPerPageOptions]="[5, 10, 20]"   
->   
-<ng-template pTemplate="header" let-columns>
-    <tr>
-        <th *ngFor="let col of columns">
-            {{ col.header }}
-        </th>
-    </tr>
-</ng-template>
-<ng-template pTemplate="body" let-rowData let-columns="tableItem">
-    <tr>
-        <td *ngFor="let col of tableItem | async">
-            {{ rowData[col] }}
-        </td>
-    </tr>
-</ng-template>
-</p-table> -->
+<ejs-grid [dataSource]="tableItem" [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true" [allowFiltering]="true" [filterSettings]="filterOptions" [editSettings]='editSettings'>
 
-<table>
-    <tr>
-        <th *ngFor="let item of cols">
-            {{item.header}} 
-        </th>
-    </tr>
+    <e-columns routerLink="/edit/{{tableItem}}">
+        <e-column field='description' headerText='Description'>
+            
+        </e-column>
+        <e-column field='category' headerText='Category'>
+            
+        </e-column>
+        <e-column field='price' headerText='Price'>
+            
+        </e-column>
+        <e-column field='date' format='yMd' headerText='Date'>
+            
+        </e-column>
+    </e-columns>
+    
+</ejs-grid>
 
-    <tr *ngFor="let item of tableItem | async; let i = index">
-        <td  routerLink="/edit/{{item.id}}">
-            {{item.description}}
-        </td>
-        <td  routerLink="/edit/{{item.id}}">
-            {{item.price}}
-        </td>
-        <td  routerLink="/edit/{{item.id}}">
-            {{item.category}}
-        </td>
-        <td  routerLink="/edit/{{item.id}}">
-            {{item.date}}
-        </td>
-    </tr>
-</table>
+
 
 
 

@@ -11,39 +11,39 @@
     </p-galleria>
 </div> -->
 
-<div class="flex align-content-center justify-content-center px-5 flex-column bg-black-alpha-30 h-screen">
+<div class="xl:flex lg:flex md:flex xl:align-content-center lg:align-content-center md:align-content-center xl:justify-content-center lg:justify-content-center md:justify-content-center xl:px-5 xl:flex-column lg:px-5 lg:flex-column md:px-5 md:flex-column bg-black-alpha-30 h-screen flex justify-content-between flex-column align-content-center px-3 m-0">
    <div class="hero-text flex flex-column justify-content-center align-content-center fadeinup animation-duration-500">
-    <h3 class="hero-welcome mb-4">
+    <h3 class="hero-welcome mb-4 text-center xl:text-8xl text-6xl line-height-1">
         Take Control Of Your <br> Finances with Ease
     </h3>
     <p class="text-center">Discover a seamless way to manage your expenses and income with our cutting-edge app, <br> and streamline your expenses and income effortlessly with our intuitive manage</p>
     
-    <div class="btns flex gap-3 justify-content-center align-content-center flex-wrap">
-        <p-button routerLink="/income">Manage Income</p-button>
-        <p-button routerLink="/expenses">Manage Expenses</p-button>
+    <div class="btns flex justify-content-center align-content-center w-full">
+        <!-- <p-button routerLink="/income">Manage Income</p-button> -->
+        <p-button routerLink="/register">Get Started</p-button>
     </div>
 </div>
 </div>
 
 <!-- Expenses Panel  -->
 
-<div class="flex px-5 flex-wrap justify-content-between align-content-center gap-4 py-5">
+<div class="xl:flex lg:flex md:flex px-5 justify-content-betweenxl align-content-center gap-4 py-5 sm:flex-column xl:flex-row md:flex-row lg:flex-row">
 
-    <div class="img col">
+    <div class="img">
         <p-card class="w-full">
-            <img src="../../../assets/african-american-man-working-monstera-plant.jpg" alt="Designed by Freepick" class="border-round-md" width="550">
+            <img src="../../../assets/african-american-man-working-monstera-plant.jpg" alt="Designed by Freepick" class="border-round-md w-17rem xl:w-30rem md:w-30rem lg:w-30rem" >
         </p-card>
     </div>
-    <div class="contents col-6">
-        <h2>Lorem ipsum dolor sit amet consectetur</h2>
+    <div class="contents">
+        <h2>Manage Your Expenses with Ease</h2>
         <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi vel sit accusamus quod beatae, sint obcaecati adipisci minus eum facilis dolor, enim velit accusantium.
+            Add your daily expenses with just a few taps. Simply enter the amount, select the category, and save the transaction. MiniLedger's user-friendly interface ensures that you can quickly capture every expense without any hassle.
         </p>
         <p class="mt-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi vel sit accusamus quod beatae, sint obcaecati adipisci minus eum facilis dolor, enim velit accusantium.
+            Organize your expenses into customizable categories. From groceries to entertainment, MiniLedger allows you to create personalized labels that suit your spending patterns.
         </p>
         <p class="mt-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi vel sit accusamus quod beatae, sint obcaecati adipisci minus eum facilis dolor, enim velit accusantium.
+            Rest assured, MiniLedger prioritizes the security and privacy of your financial data. All your information is encrypted and securely stored to safeguard your sensitive details.
         </p>
         <p-button class="mt-4" routerLink="/expenses">Manage Expences</p-button>
     </div>
@@ -52,26 +52,25 @@
 
 <!-- income section -->
 
-<div class="flex px-5 justify-content-between align-content-center gap-4 bg-black-alpha-30 py-5">
-    <div class="contents">
-        <h2>Lorem ipsum dolor sit amet consectetur</h2>
+<div class="xl:flex px-5 justify-content-betweenxl align-content-center gap-4 py-5 sm:flex-column xl:flex-row bg-black-alpha-30">
+    <div class="img mt-2">
+        <p-card class="w-full">
+            <img src="../../../assets/african-american-man-working-monstera-plant.jpg" alt="Designed by Freepick" class="border-round-md w-17rem xl:w-30rem">
+        </p-card>
+    </div>
+
+    <div class="contents xl:flex xl:flex-column xl:align-items-center">
+        <h2>Track Your Income and Grow Your Savings</h2>
         <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi vel sit accusamus quod beatae, sint obcaecati adipisci minus eum facilis dolor, enim velit accusantium.
+            Categorize your income sources to understand how each contributes to your overall earnings. Create personalized labels, such as "Salary," "Investments," or "Rental Income," to keep your income organized.
         </p>
         <p class="mt-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi vel sit accusamus quod beatae, sint obcaecati adipisci minus eum facilis dolor, enim velit accusantium.
-        </p>
-        <p class="mt-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi vel sit accusamus quod beatae, sint obcaecati adipisci minus eum facilis dolor, enim velit accusantium.
+            Easily add your income streams to MiniLedger. Whether it's your salary, freelance payments, or side hustles, you can effortlessly log every source of income to get a clear view of your financial inflows.
         </p>
         <p-button class="mt-4" routerLink="/income">Manage Income</p-button>
     </div>
 
-    <div class="img">
-        <p-card class="w-full">
-            <img src="../../../assets/african-american-man-working-monstera-plant.jpg" alt="Designed by Freepick" class="border-round-md" width="550">
-        </p-card>
-    </div>
+    
 </div>
 
 
