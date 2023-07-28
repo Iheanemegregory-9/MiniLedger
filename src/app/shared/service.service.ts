@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, addDoc, Firestore, collectionData  } from '@angular/fire/firestore';
+import { collection, addDoc, Firestore, collectionData,  } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ServiceService {
 
-  expneses!:Observable<any>
+  // expneses!:Observable<any>
 
   
   constructor(private firestore : Firestore) { }
@@ -18,8 +18,13 @@ export class ServiceService {
   }
 
   getExpenses(){
-    const colRef = collection(this.firestore, 'Expenses');
-    return this.expneses = collectionData(colRef, {idField: 'id'},)
+    const colRef = collection(this.firestore, 'Expenses')
+    return collectionData(colRef)
+  }
+
+  getExpensesID(id:string){
+    const colRef = collection(this.firestore, `Expenses/${{id}}`)
+    return collectionData(colRef, {idField: 'id'},)
   }
 
 }

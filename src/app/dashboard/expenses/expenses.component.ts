@@ -30,13 +30,13 @@ export class ExpensesComponent implements OnInit {
   date:Date = new Date();
   loading:boolean = false
 
-  tableItem!:any[]
+  tableItem:any[] | undefined
 
 
 
   visible: boolean = false;
   data:any;
-  dataId:any;
+  dataId:any[] | undefined;
 
 
   constructor(
@@ -78,7 +78,6 @@ export class ExpensesComponent implements OnInit {
   getExpenses(){
     this.service.getExpenses().subscribe((res)=>{
       console.log(res);
-      
       this.tableItem = res;
     })
   }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,17 +9,12 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-  constructor(private route: Router){}
+  constructor(private route: Router, private authService: AuthService){}
 
   loading:boolean = false;
+  isLoggedIn:boolean = true;
 
   menuItems = [
-    {
-      label: '',
-      className: 'user-home',
-      icon: 'pi pi-user',
-      routerLink: '/dashboard'
-    },
     {
       label: 'Income',
       className: 'menu',
@@ -36,16 +32,16 @@ export class HeaderComponent {
     }
   ]
 
-  logOut(){
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-      this.route.navigate(['/register']);
-    }, 2000);
+  navHome(){
+    this.route.navigate(['/register'])
   }
 
-  navHome(){
-    this.route.navigate(['/dashboard'])
+  logOut(){
+    this.isLoggedIn = false
+    this.authService.signOut().then((res)=>{
+
+      localStorage.removeItem('user')
+    })
   }
 
 }
