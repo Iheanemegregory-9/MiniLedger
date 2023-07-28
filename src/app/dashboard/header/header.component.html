@@ -1,7 +1,9 @@
 <div class="menu card">
     <p-menubar [model]="menuItems">
         <ng-template pTemplate="end">
-            <p-button label="Get Started" icon="pi pi-sign-out" [loading]="loading" routerLink="/register"></p-button>
+            <p-button label="Get Started" icon="pi pi-sign-out" [loading]="loading" routerLink="/register" [hidden]="isLoggedIn"></p-button>
+
+            <p-button label="Sign Out" [hidden]="!isLoggedIn" icon="pi pi-sign-out" [loading]="loading" routerLink="/register"></p-button>
         </ng-template>
     </p-menubar> 
 </div>
