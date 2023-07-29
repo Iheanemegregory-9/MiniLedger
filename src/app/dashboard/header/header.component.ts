@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 
@@ -7,12 +7,21 @@ import { AuthService } from 'src/app/shared/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   constructor(private route: Router, private authService: AuthService){}
 
   loading:boolean = false;
-  isLoggedIn:boolean = true;
+  showGetStarted:boolean = false;
+  showLogOut:boolean = false;
+
+   user = localStorage.getItem('user')
+
+   ngOnInit(): void {
+     this.isUserLoggedin()
+   }
+
+
 
   menuItems = [
     {
@@ -32,16 +41,26 @@ export class HeaderComponent {
     }
   ]
 
+
+  isUserLoggedin(){
+    if(!this.user){
+      this.showGetStarted = true
+      this.showLogOut = false
+    } else{
+      this.showGetStarted = false; 
+      this.showLogOut = true;
+    }
+  }
+
   navHome(){
     this.route.navigate(['/register'])
   }
 
   logOut(){
-    this.isLoggedIn = false
-    this.authService.signOut().then((res)=>{
-
-      localStorage.removeItem('user')
-    })
+    this.authService.signOut()
+    localStorage.removeItem('user')
+    this.route.navigate(['/'])
+    this.isUserLoggedin()
   }
 
 }
