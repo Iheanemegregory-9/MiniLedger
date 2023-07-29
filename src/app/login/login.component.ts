@@ -28,9 +28,11 @@ export class LoginComponent implements OnInit {
     this.authService.signIn(email, password).then((res)=>{
       localStorage.setItem('user', res.user.uid);
       console.log(res.user);
+
+      this.route.navigate(['/'])
       
     })
-    this.messages = [{ severity: 'success', summary: 'Success', detail: 'Message Content' }];
+    // this.messages = [{ severity: 'success', summary: 'Success', detail: 'Message Content' }];
     // this.route.navigate(['/dashboard'])
   }
 }
