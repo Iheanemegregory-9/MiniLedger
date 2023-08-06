@@ -32,7 +32,7 @@ export class ExpensesComponent implements OnInit {
   date:Date = new Date();
   loading:boolean = false
 
-  tableItem:any[] | undefined
+  tableItem!:any[]
 
 
 

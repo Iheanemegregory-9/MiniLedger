@@ -42,9 +42,6 @@
                 </div>
             </div>
         </div>
-        <div class="btn ">
-            <p-button (onClick)="openForm()">Add New Expense</p-button>
-        </div>
     </div>
 </div>
         
@@ -79,24 +76,6 @@
             
                 </div>
             </div>
-            <!-- <form class="grid" #f="ngForm"> 
-                <div class="flex gap-2 flex-column col-6">
-                    <label htmlFor="descriotion">Description</label>
-                    <input type="text" name="description" [(ngModel)]="description"  pInputText placeholder="Expense decription" id="descriotion" /> 
-                </div>
-                <div class="flex gap-2 flex-column col-6">
-                    <label htmlFor="descriotion">Category</label>
-                    <input placeholder="Select a Category" pInputText [(ngModel)]="category" name="category">
-                </div>
-                <div class="flex gap-2 flex-column col-12 w-full">
-                    <label htmlFor="descriotion">Price</label>
-                    <p-inputNumber [(ngModel)]="price" inputId="integeronly" class="w-full" name="price"> </p-inputNumber>
-                </div>
-                <div class="flex gap-2 flex-column col-12 w-full">
-                    <label htmlFor="descriotion">Date</label> 
-                    <p-calendar [(ngModel)]="date" name="calender"></p-calendar>
-                </div>
-            </form> -->
         </ng-template>
         <ng-template pTemplate="footer">
             <p-button icon="pi pi-plus" (click)="adddNewExpence(description, category, price, date)" label="Add" [loading]="loading"></p-button>
@@ -105,24 +84,46 @@
 </div>
 
 
-<ejs-grid [dataSource]="tableItem" [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true" [allowFiltering]="true" [filterSettings]="filterOptions" [editSettings]='editSettings'>
+<p-table 
+    [value]="tableItem" styleClass="p-datatable-gridlines" 
+    [paginator]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+>
+    <ng-template pTemplate="caption"> 
 
-    <e-columns routerLink="/edit/{{dataId}}">
-        <e-column field='description' headerText='Description'>
-            
-        </e-column>
-        <e-column field='category' headerText='Category'>
-            
-        </e-column>
-        <e-column field='price' headerText='Price'>
-            
-        </e-column>
-        <!-- <e-column field='date' format='yMd' headerText='Date'>
-            
-        </e-column> -->
-    </e-columns>
-    
-</ejs-grid>
+        <p-button icon="pi pi-plus" pRipple label="Add New Expense" (onClick)="openForm()"> </p-button>
+
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Date Added</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr>
+            <td>{{ product.description }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.date }}</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </ng-template>
+</p-table>
 
 
 <!-- <input type="range" [(ngModel)]="rangeValue" name="range" [value]="rangeValue" id=""> -->
