@@ -8,13 +8,14 @@ import { ExpensesComponent } from './dashboard/expenses/expenses.component';
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { DataDetailsComponent } from './data-details/data-details.component';
+import { guardGuard } from './guard/guard.guard';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: '', component: HomeComponent},
-  {path: 'income', component: IncomeComponent},
-  {path: 'expenses', component: ExpensesComponent},
+  {path: 'income', component: IncomeComponent, canActivate: [guardGuard]},
+  {path: 'expenses', component: ExpensesComponent, canActivate: [guardGuard]},
   {path: 'comming-soon', component: ComingSoonComponent},
   {path: 'verify', component: VerifyEmailComponent},
   {path: 'edit/:id', component: DataDetailsComponent}

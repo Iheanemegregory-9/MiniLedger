@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "miniledger-80783": {
+      "hosting": {
+        "MiniLedger": [
+          "miniledger-80783"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "miniledger-80783"
+  }
+}

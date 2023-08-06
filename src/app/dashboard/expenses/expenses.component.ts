@@ -5,6 +5,7 @@ import { ServiceService } from 'src/app/shared/service.service';
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { FilterSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { EditSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import {DataManager, UrlAdaptor} from '@syncfusion/ej2-data'
 
 
 
@@ -19,10 +20,11 @@ export class ExpensesComponent implements OnInit {
   public filterOptions?: FilterSettingsModel;
   public editSettings?: EditSettingsModel;
   public toolbar?: ToolbarItems[];
+  public dataSource!: DataManager;
 
 
   
-
+  rangeValue = 10;
 
   description!:string;
   category!:string
@@ -36,7 +38,7 @@ export class ExpensesComponent implements OnInit {
 
   visible: boolean = false;
   data:any;
-  dataId:any[] | undefined;
+  dataId!:string | null;
 
 
   constructor(
@@ -47,13 +49,24 @@ export class ExpensesComponent implements OnInit {
 
  
   ngOnInit(): void {
+
+    console.log(this.rangeValue);
+    
     this.getExpenses()
     this.pageSettings = {
       pageSize: 5
     }
 
+    this.filterOptions = {
+      ignoreAccent: true
+    }
+
     this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
+
+    this.activatedRoute.paramMap.subscribe(id=>{
+      this.dataId = id.get('id')
+    })
 
   }
 
