@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ServiceService } from '../shared/service.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-data-details',
@@ -12,25 +13,28 @@ import { ServiceService } from '../shared/service.service';
 })
 export class DataDetailsComponent implements OnInit {
 
+
+  dataDetails!: any;
+  itemID!:any
+
+
   constructor(private activatedRoute: ActivatedRoute, private sharedService : ServiceService, private route: Router){}
 
   
 
-  
+ngOnInit(): void {
+  this.activatedRoute.paramMap.subscribe(params => {
+     this.itemID = params.get('id');
+    this.sharedService.getExpensesID(this.itemID).then((res)=>{
 
-  ngOnInit(): void {
-  this.activatedRoute.paramMap.subscribe((param)=>{
+      this.dataDetails = res.data();
+      console.log(res.data());
+      
+    })
+
+    // console.log(this.dataDetails);
     
-    console.log(param);
-    
-  })
-  
-
-  }
-
-  updateData(){
-    this.route.navigate(['/expenses'])
-  }
-
+  });
+}
 
 }
