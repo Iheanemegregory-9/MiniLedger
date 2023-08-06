@@ -1,23 +1,28 @@
-<div class="flex justify-content-center align-item-center h-screen">
-        <p-card header="Login to your account" class="w-full xl:w-6" >
-            <form #f="ngForm">
-                <div class="flex flex-column gap-3 mb-3 animate-width animation-duration-500">
-                    <label htmlFor="username">Email</label>
-                    <input pInputText name="email" [(ngModel)]="email" />
-                    <!-- <small id="username-help">Enter your email address.</small> -->
-                </div>
-                <div class="flex flex-column gap-3 mb-3 animate-width animation-duration-500">
-                    <label htmlFor="password">Password</label>
-                    <p-password [(ngModel)]="password" name="password" [toggleMask]="true"></p-password>
-                    <!-- <small id="username-help">Enter your username to reset your pasword.</small> -->
-                </div>
-    
-                <p-button (onClick)="login(email, password)" class="animate-width animation-duration-500">Login</p-button>
-            </form>
-            <h5 class="mt-4">Don't have an account? <a routerLink="/register">Create one here</a></h5>
-        </p-card>
-
-        <div class="card">
-            <p-messages [(value)]="messages" [enableService]="true" [closable]="false"></p-messages>
+<div class="flex h-screen justify-content-center align-items-center">
+    <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+        <div class="text-center mb-5">
+            <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
+            <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+            <span class="text-600 font-medium line-height-3" >Don't have an account?</span>
+            <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" routerLink="/register">Create today!</a>
         </div>
+    
+        <div>
+            <label for="email1" class="block text-900 font-medium mb-2">Email</label>
+            <input id="email1" type="email" name="email" [(ngModel)]="email" placeholder="Email address" pInputText class="w-full mb-3">
+    
+            <label for="password1" class="block text-900 font-medium mb-2">Password</label>
+            <input id="password1" [(ngModel)]="password" name="password" type="password" placeholder="Password" pInputText class="w-full mb-3">
+    
+            <div class="flex align-items-center justify-content-between mb-6">
+                <div class="flex align-items-center">
+                    <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+                    <label for="rememberme1" class="text-900">Remember me</label>
+                </div>
+                <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</a>
+            </div>
+    
+            <button (onClick)="login(email, password)" pButton pRipple label="Sign In" icon="pi pi-user" class="w-full"></button>
+        </div>
+    </div>
 </div>

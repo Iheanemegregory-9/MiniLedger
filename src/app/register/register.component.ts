@@ -13,7 +13,9 @@ export class RegisterComponent implements OnInit {
   messages!: Message[];
 
   email!:string
-  password!:string;
+  password!:string; 
+  userID!: string
+  userIsAnon!:boolean;
 
   
   constructor(private route: Router, private authService: AuthService){}
@@ -28,16 +30,21 @@ export class RegisterComponent implements OnInit {
 
 
   
-  createAccount(email:string, password:string){
+  createAccount(email:string, password:string,){
 
     this.authService.createAccount(email, password).then((res)=>{
+      this.userID = res.user.uid;
+      this.userIsAnon = res.user.isAnonymous;
+      // this.userEmail = res.user.email;
 
       localStorage.setItem('user', res.user.uid)
+      this.authService.linkUsertoDB(this.userID, this.userIsAnon)
       console.log(res.user);
+      this.route.navigate(['/'])
     }, err =>{
       console.log(err.message);
     })
-    // this.route.navigate(['/verify'])
+    this.route.navigate(['/'])
   }
 
 }
