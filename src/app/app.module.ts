@@ -22,7 +22,7 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideMessaging,getMessaging } from '@angular/fire/messaging';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
+import { GridModule, FilterService, PagerModule, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
   declarations: [
@@ -49,9 +49,10 @@ import { GridModule } from '@syncfusion/ej2-angular-grids';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideMessaging(() => getMessaging())
+    provideMessaging(() => getMessaging()),
+    PagerModule
   ],
-  providers: [],
+  providers: [FilterService, EditService, ToolbarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

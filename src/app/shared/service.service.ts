@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, addDoc, Firestore, collectionData,  } from '@angular/fire/firestore';
+import { collection, addDoc, Firestore, collectionData, doc, getDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,12 +19,13 @@ export class ServiceService {
 
   getExpenses(){
     const colRef = collection(this.firestore, 'Expenses')
-    return collectionData(colRef)
+    return collectionData(colRef, {idField: 'id'})
   }
 
   getExpensesID(id:string){
-    const colRef = collection(this.firestore, `Expenses/${{id}}`)
-    return collectionData(colRef, {idField: 'id'},)
+    const docRef = doc(this.firestore, `Expenses/${id}`)
+   const docSnap = getDoc(docRef);
+    return docSnap;
   }
 
 }
