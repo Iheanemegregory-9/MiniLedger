@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ServiceService } from '../shared/service.service';
-import { Observable } from 'rxjs';
+import { ServiceService } from 'src/app/shared/service.service';
 
 @Component({
-  selector: 'app-data-details',
-  templateUrl: './data-details.component.html',
-  styleUrls: ['./data-details.component.css'],
-  providers: [DialogService, MessageService]
+  selector: 'app-expense-details',
+  templateUrl: './expense-details.component.html',
+  styleUrls: ['./expense-details.component.css']
 })
-export class DataDetailsComponent implements OnInit {
+export class ExpenseDetailsComponent implements OnInit {
 
 
   dataDetails!: any;
@@ -31,9 +27,6 @@ ngOnInit(): void {
       console.log(res.data());
       
     })
-
-    // console.log(this.dataDetails);
-    
   });
 }
 
