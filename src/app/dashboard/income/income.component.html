@@ -1,6 +1,4 @@
 <app-header></app-header>
-
-
 <div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
     <div class="grid">
         <div class="col-12 md:col-6 lg:col-3">
@@ -42,14 +40,29 @@
                 </div>
             </div>
         </div>
-        <div class="btn ">
-            <p-button (onClick)="openForm()">Add New Income</p-button>
-        </div>
     </div>
 </div>
         
 
 
+<div class="flex justify-content-center align-items-center w-auto" *ngIf="!editIsHidden">
+    <p-card> 
+         <div class="card flex justify-content-center gap-5 mb-5">
+            <label for="description" class="block text-900 font-medium mb-2">Description</label>
+            <input type="text"  id="description" pInputText [(ngModel)]="dataDetails.description"/>
+            
+            <label for="source" class="block text-900 font-medium mb-2">Source</label>
+            <input type="text" id="source" pInputText [(ngModel)]="dataDetails.source"/>  
+        </div>
+        <div class="card flex justify-content-center gap-5 mb-5">
+            <label for="price" class="block text-900 font-medium mb-2">Price</label>
+            <input type="text" id="price" pInputText [(ngModel)]="dataDetails.price"/>
+            <label for="date" class="block text-900 font-medium mb-2">Price</label>
+            <p-calendar [(ngModel)]="dataDetails.date" id="date" [touchUI]="true" [readonlyInput]="false"></p-calendar>
+        </div> 
+        <p-button class="w-full">Update</p-button>
+    </p-card> 
+</div>
 
 
 <!-- add new expense dialog form -->
@@ -84,24 +97,46 @@
 </div>
 
 
-<ejs-grid [dataSource]="tableItem" [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true" [allowFiltering]="true" [filterSettings]="filterOptions" [editSettings]='editSettings'>
+<p-table 
+    [value]="tableItem" styleClass="p-datatable-gridlines" 
+    [paginator]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+>
+    <ng-template pTemplate="caption"> 
 
-    <e-columns routerLink="/edit/{{tableItem}}">
-        <e-column field='description' headerText='Description'>
-            
-        </e-column>
-        <e-column field='source' headerText='Source'>
-            
-        </e-column>
-        <e-column field='price' headerText='Price'>
-            
-        </e-column>
-        <e-column field='date' format='yMd' headerText='Date'>
-            
-        </e-column>
-    </e-columns>
-    
-</ejs-grid>
+        <p-button icon="pi pi-plus" pRipple label="Add New Income" (onClick)="openForm()"> </p-button>
+
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Description</th>
+            <th>Source</th>
+            <th>Price</th>
+            <th>Date Added</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr (click)="loadIncomeByID(product.id)" class="cursor-pointer" pTooltip="Click to cedit" >
+            <td>{{ product.description }}</td>
+            <td>{{ product.source }}</td>
+            <td>{{ product.price | currency: 'NGN' }}</td>
+            <td>{{ product.date }}</td> 
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </ng-template>
+</p-table>
 
 
 

@@ -18,7 +18,7 @@ export class IncomeComponent implements OnInit {
   public editSettings?: EditSettingsModel;
   public toolbar?: ToolbarItems[];
 
-  constructor(private incomeService: IncomeService){
+  constructor(private incomeService: IncomeService, private activatedRoute: ActivatedRoute){
 
   }
 
@@ -27,15 +27,17 @@ export class IncomeComponent implements OnInit {
   price!:number;  
   date:Date = new Date();
   loading:boolean = false
-
   tableItem!:any[]
-
   visible: boolean = false;
-  id!:string;
+  itemID!:any;
+  editIsHidden = true;
+
+  dataDetails:any;
 
 
   ngOnInit(): void {
-    this.loadIncomeData(this.id)
+    
+    this.loadIncomeData()
   }
 
 
@@ -57,17 +59,23 @@ export class IncomeComponent implements OnInit {
     this.loading = false
   }
 
-  loadIncomeData(id:string){
-
-    this.incomeService.getIncomeData(id).subscribe((res)=>{
-      console.log(res);
-      console.log(id);
-      
+  loadIncomeData(){
+    this.incomeService.getIncomeData().subscribe((res)=>{
       this.tableItem = res;
-      // this.id = id;
-      
     })
 
+  }
+
+  loadIncomeByID(id:string){
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.itemID = params.get('id');
+     this.incomeService.getIncomeID(id).then((res)=>{
+      this.dataDetails = res.data();
+      console.log(this.dataDetails);
+     })
+   });
+
+   this.editIsHidden = false;
   }
 
 
