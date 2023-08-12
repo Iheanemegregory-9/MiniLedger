@@ -5,6 +5,7 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { FilterSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { EditSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { IncomeService } from 'src/app/shared/income.service';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-income',
@@ -18,7 +19,7 @@ export class IncomeComponent implements OnInit {
   public editSettings?: EditSettingsModel;
   public toolbar?: ToolbarItems[];
 
-  constructor(private incomeService: IncomeService, private activatedRoute: ActivatedRoute){
+  constructor(private incomeService: IncomeService, private activatedRoute: ActivatedRoute, private authService : AuthService){
 
   }
 
@@ -26,17 +27,20 @@ export class IncomeComponent implements OnInit {
   source!:string;
   price!:number;  
   date:Date = new Date();
-  loading:boolean = false
+  loading:boolean = true;
   tableItem!:any[]
   visible: boolean = false;
   itemID!:any;
   editIsHidden = true;
+  firstName!:any;
 
   dataDetails:any;
 
 
   ngOnInit(): void {
+
     
+    this.getUserDetails()
     this.loadIncomeData()
   }
 
@@ -51,17 +55,18 @@ export class IncomeComponent implements OnInit {
       console.log(res);
       console.log('data added');
       this.visible = false
+      this.loading = false;
       
     }, err =>{
       console.log(err);
       
     })
-    this.loading = false
   }
 
   loadIncomeData(){
     this.incomeService.getIncomeData().subscribe((res)=>{
       this.tableItem = res;
+      this.loading = false;
     })
 
   }
@@ -78,5 +83,15 @@ export class IncomeComponent implements OnInit {
    this.editIsHidden = false;
   }
 
+  getUserDetails(){
+   this.incomeService.getUserData().subscribe(res=>{
+    res.forEach(data =>{
+
+      this.firstName = data['firstName'];
+      this.loading = false;
+      
+    }) 
+   })
+}
 
 }
