@@ -5,6 +5,7 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { FilterSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { EditSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { IncomeService } from 'src/app/shared/income.service';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-income',
@@ -18,7 +19,7 @@ export class IncomeComponent implements OnInit {
   public editSettings?: EditSettingsModel;
   public toolbar?: ToolbarItems[];
 
-  constructor(private incomeService: IncomeService){
+  constructor(private incomeService: IncomeService, private activatedRoute: ActivatedRoute, private authService : AuthService){
 
   }
 
@@ -26,16 +27,21 @@ export class IncomeComponent implements OnInit {
   source!:string;
   price!:number;  
   date:Date = new Date();
-  loading:boolean = false
-
+  loading:boolean = true;
   tableItem!:any[]
-
   visible: boolean = false;
-  id!:string;
+  itemID!:any;
+  editIsHidden = true;
+  firstName!:any;
+
+  dataDetails:any;
 
 
   ngOnInit(): void {
-    this.loadIncomeData(this.id)
+
+    
+    this.getUserDetails()
+    this.loadIncomeData()
   }
 
 
@@ -49,26 +55,43 @@ export class IncomeComponent implements OnInit {
       console.log(res);
       console.log('data added');
       this.visible = false
+      this.loading = false;
       
     }, err =>{
       console.log(err);
       
     })
-    this.loading = false
   }
 
-  loadIncomeData(id:string){
-
-    this.incomeService.getIncomeData(id).subscribe((res)=>{
-      console.log(res);
-      console.log(id);
-      
+  loadIncomeData(){
+    this.incomeService.getIncomeData().subscribe((res)=>{
       this.tableItem = res;
-      // this.id = id;
-      
+      this.loading = false;
     })
 
   }
 
+  loadIncomeByID(id:string){
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.itemID = params.get('id');
+     this.incomeService.getIncomeID(id).then((res)=>{
+      this.dataDetails = res.data();
+      console.log(this.dataDetails);
+     })
+   });
+
+   this.editIsHidden = false;
+  }
+
+  getUserDetails(){
+   this.incomeService.getUserData().subscribe(res=>{
+    res.forEach(data =>{
+
+      this.firstName = data['firstName'];
+      this.loading = false;
+      
+    }) 
+   })
+}
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { signInAnonymously, signInWithEmailAndPassword, signOut, Auth, createUserWithEmailAndPassword, authState } from '@angular/fire/auth';
-import { collection, doc, addDoc, Firestore } from '@angular/fire/firestore';
+import { signInAnonymously, signInWithEmailAndPassword, signOut, Auth, createUserWithEmailAndPassword, authState, sendPasswordResetEmail, sendEmailVerification, sendSignInLinkToEmail, User, user, } from '@angular/fire/auth';
+import { collection, doc, addDoc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +9,18 @@ export class AuthService {
 
   constructor(private auth: Auth, private firestore : Firestore) { }
 
-  createAccount(email:string, password:string,){
-   return createUserWithEmailAndPassword(this.auth, email, password,)
+  createAccount(email:string, password:string){
+  return createUserWithEmailAndPassword(this.auth, email, password);
+   
   }
 
-  linkUsertoDB(userID:string, userIsAnon:boolean){
-    const userRef = collection(this.firestore, 'Users');
-    addDoc(userRef, {
-      userID,
-      userIsAnon,
-    })
+  setUserDetails(firstName:string, lastName:string, id:string){
+    const userColRef = doc(this.firestore, 'Users', id);
+    return setDoc(userColRef, {firstName, lastName, id})
+  }
+
+  sendEmailVerification(email:any){
+    return sendEmailVerification(email)
   }
 
   signIn(email:string, password:string){
@@ -30,6 +32,19 @@ export class AuthService {
   }
 
   currentUser(){
-    authState(this.auth)
+   return  user(this.auth)
+  }
+
+  resetPassword(email:string){
+   return sendPasswordResetEmail(this.auth, email)
+  }
+
+  isUserAuthenticated(){
+    if(this.auth.currentUser?.isAnonymous){
+      console.log('user is not auth');
+    } else if (!this.auth.currentUser?.isAnonymous){
+      console.log('user is auth');
+      
+    }
   }
 }
