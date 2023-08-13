@@ -33,15 +33,19 @@ export class IncomeComponent implements OnInit {
   itemID!:any;
   editIsHidden = true;
   firstName!:any;
+  userID!:any;
 
   dataDetails:any;
 
 
   ngOnInit(): void {
 
-    
-    this.getUserDetails()
+    this.activatedRoute.paramMap.subscribe(id =>{
+      this.userID = id.get('id')
+    })
     this.loadIncomeData()
+
+    this.getUserDetails(this.userID)
   }
 
 
@@ -83,15 +87,14 @@ export class IncomeComponent implements OnInit {
    this.editIsHidden = false;
   }
 
-  getUserDetails(){
-   this.incomeService.getUserData().subscribe(res=>{
-    res.forEach(data =>{
-
-      this.firstName = data['firstName'];
-      this.loading = false;
+  getUserDetails(id:string){
+    this.incomeService.getUserData(id).subscribe(res =>{
+      console.log(res);
+      res.forEach(user =>{
+        this.firstName = user['firstName']
+      })
       
-    }) 
-   })
+    })
 }
 
 }

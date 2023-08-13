@@ -3,7 +3,7 @@
     <div class="mb-3 text-green-300 font-bold font-italic text-xl">
         <p-skeleton width="10rem" height="2rem" styleClass="mb-2" *ngIf="loading else content">
         </p-skeleton> 
-        <ng-template #content>
+        <ng-template #content ngFor="userName ">
             Welcome back {{firstName}} 
         </ng-template>
     </div>
