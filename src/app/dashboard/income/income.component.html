@@ -3,51 +3,12 @@
     <div class="mb-3 text-green-300 font-bold font-italic text-xl">
         <p-skeleton width="10rem" height="2rem" styleClass="mb-2" *ngIf="loading else content">
         </p-skeleton> 
-        <ng-template #content ngFor="userName ">
-            Welcome back {{firstName}} 
+        <ng-template #content ngFor="userName">
+            <p>
+                Welcome back {{userDetails.firstName}}
+            </p> 
         </ng-template>
-    </div>
-    <!-- <div class="grid">
-        <div class="col-12 md:col-6 lg:col-3">
-            <div class="surface-card shadow-2 p-3 border-round">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3 hover:-translate-y-100">Expenses</span>
-                        <div class="text-900 font-medium text-xl">$2.100</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width:2.5rem;height:2.5rem">
-                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 md:col-6 lg:col-3">
-            <div class="surface-card shadow-2 p-3 border-round">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Income</span>
-                        <div class="text-900 font-medium text-xl">28441</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width:2.5rem;height:2.5rem">
-                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 md:col-6 lg:col-3">
-            <div class="surface-card shadow-2 p-3 border-round">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Balance</span>
-                        <div class="text-900 font-medium text-xl">152 Unread</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" style="width:2.5rem;height:2.5rem">
-                        <i class="pi pi-comment text-purple-500 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+    </div> 
 </div>
         
 

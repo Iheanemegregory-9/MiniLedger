@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceService } from 'src/app/shared/service.service';
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
@@ -10,7 +10,8 @@ import { AuthService } from 'src/app/shared/auth.service';
 @Component({
   selector: 'app-income',
   templateUrl: './income.component.html',
-  styleUrls: ['./income.component.css']
+  styleUrls: ['./income.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncomeComponent implements OnInit {
 
@@ -34,18 +35,20 @@ export class IncomeComponent implements OnInit {
   editIsHidden = true;
   firstName!:any;
   userID!:any;
+  userDetails:any;
 
   dataDetails:any;
 
 
   ngOnInit(): void {
 
-    this.activatedRoute.paramMap.subscribe(id =>{
-      this.userID = id.get('id')
+    this.activatedRoute.paramMap.subscribe(param =>{
+      this.userID = param.get('id')
+      this.loadUserData()
     })
     this.loadIncomeData()
-
-    this.getUserDetails(this.userID)
+    
+    // this.authService.currentUser()
   }
 
 
@@ -87,14 +90,24 @@ export class IncomeComponent implements OnInit {
    this.editIsHidden = false;
   }
 
-  getUserDetails(id:string){
-    this.incomeService.getUserData(id).subscribe(res =>{
-      console.log(res);
-      res.forEach(user =>{
-        this.firstName = user['firstName']
-      })
-      
+  loadUserData() {
+    this.authService.currentUser().subscribe(res =>{
+      this.userID = res?.uid
+      this.getUserDetails(this.userID);
     })
-}
+  }
+
+  getUserDetails(id: string) {
+    this.incomeService.getUserData(id).then(res => {
+      if (res.exists()) {
+        this.userDetails = res.data();
+        console.log(this.userDetails);
+      } else {
+        console.log('User not found');
+      }
+    }).catch(error => {
+      console.error('Error fetching user data:', error);
+    });
+  } 
 
 }

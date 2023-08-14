@@ -66,7 +66,10 @@ export class HeaderComponent implements OnInit {
   logOut(){
     this.authService.signOut()
     localStorage.removeItem('user')
-    this.route.navigate(['/'])
+    // if(this.route.url == ('/')){
+      
+    // }
+    this.route.navigate(['/']) 
     this.isUserLoggedin()
   }
 
