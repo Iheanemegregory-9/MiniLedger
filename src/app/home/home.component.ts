@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class DashboardHomeComponent {
+export class HomeComponent {
+
 
   constructor() {}
 
@@ -19,7 +19,7 @@ export class DashboardHomeComponent {
     {
       message: `Advanced Income Management Book`,
       alt: 'Image 1',
-      title: 'Image 1'
+      title: 'Image 1' 
     },
     {
       message: `Advanced Invoic Management Book`,
@@ -48,6 +48,5 @@ export class DashboardHomeComponent {
     ngOnInit() {
       
   }
-
 
 }

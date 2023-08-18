@@ -6,11 +6,12 @@ import { FilterSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { EditSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { IncomeService } from 'src/app/shared/income.service';
 import { AuthService } from 'src/app/shared/auth.service';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-income',
   templateUrl: './income.component.html',
-  styleUrls: ['./income.component.css']
+  styleUrls: ['./income.component.css'],
 })
 export class IncomeComponent implements OnInit {
 
@@ -19,7 +20,7 @@ export class IncomeComponent implements OnInit {
   public editSettings?: EditSettingsModel;
   public toolbar?: ToolbarItems[];
 
-  constructor(private incomeService: IncomeService, private activatedRoute: ActivatedRoute, private authService : AuthService){
+  constructor(private incomeService: IncomeService, private activatedRoute: ActivatedRoute, private authService : AuthService, private auth: Auth){
 
   }
 
@@ -33,17 +34,28 @@ export class IncomeComponent implements OnInit {
   itemID!:any;
   editIsHidden = true;
   firstName!:any;
+  userID:any;
+  userDetails: any = {};
+  isVerified!:boolean;
 
   dataDetails:any;
 
 
   ngOnInit(): void {
 
-    
-    this.getUserDetails()
-    this.loadIncomeData()
+    this.auth.onAuthStateChanged((user) => {
+      if(user){
+        this.userID = user.uid
+        console.log(user.uid);
+        this.getUserDetails(this.userID) 
+      }
+      else{
+        console.log('no user');
+      }
+    })
+    this.loadIncomeData();
   }
-
+  
 
   openForm(){
     this.visible = true;
@@ -83,15 +95,48 @@ export class IncomeComponent implements OnInit {
    this.editIsHidden = false;
   }
 
-  getUserDetails(){
-   this.incomeService.getUserData().subscribe(res=>{
-    res.forEach(data =>{
 
-      this.firstName = data['firstName'];
-      this.loading = false;
-      
-    }) 
-   })
-}
+  getUserDetails(id:string) {
+    this.auth.onAuthStateChanged((user) => {
+      if(user){
+        this.userID = user.uid
+        console.log(user.uid);  
+        this.incomeService.getUserData(id).then(res =>{
+          this.userDetails = res.data()
+          console.log(res.data());
+        })
+      }
+      else{
+        console.log('no user');
+      }
+    })
+} 
+
+
+  isEmailVerified(){
+    const verified = this.authService.currentUser()?.emailVerified
+    if(verified){
+        this.isVerified = true
+        } else if(!verified){
+        this.isVerified = false
+       } 
+  }
+
+ 
+
+  // userStateChanged() {
+  //   this.auth.onAuthStateChanged((user) => {
+  //     if(user){
+  //       this.userID = user.uid
+  //       console.log(user.uid);  
+  //     }
+
+  //     else{
+  //       console.log('no user');
+  //     }
+  //   })
+
+  // }
+
 
 }

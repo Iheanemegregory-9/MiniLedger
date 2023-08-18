@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-header',
@@ -14,11 +15,17 @@ export class HeaderComponent implements OnInit {
   loading:boolean = false;
   showGetStarted:boolean = false;
   showLogOut:boolean = false;
+  message!: Message[]
 
    user = localStorage.getItem('user')
 
    ngOnInit(): void {
      this.isUserLoggedin()
+
+     this.message = [
+      { severity: 'warn', summary: 'Waning', detail: 'This project is still under constuction.' },
+     ]
+
    }
 
 
@@ -59,7 +66,10 @@ export class HeaderComponent implements OnInit {
   logOut(){
     this.authService.signOut()
     localStorage.removeItem('user')
-    this.route.navigate(['/'])
+    // if(this.route.url == ('/')){
+      
+    // }
+    this.route.navigate(['/']) 
     this.isUserLoggedin()
   }
 
