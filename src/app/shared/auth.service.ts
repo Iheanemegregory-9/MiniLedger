@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { signInAnonymously, signInWithEmailAndPassword, signOut, Auth, createUserWithEmailAndPassword, authState, sendPasswordResetEmail, sendEmailVerification, sendSignInLinkToEmail, User, user, } from '@angular/fire/auth';
+import { getAuth, signInWithEmailAndPassword, signOut, Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, user, onAuthStateChanged, User } from '@angular/fire/auth';
 import { collection, doc, addDoc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable({
@@ -7,20 +7,25 @@ import { collection, doc, addDoc, Firestore, setDoc } from '@angular/fire/firest
 })
 export class AuthService {
 
+
+  currentUser(){
+    return this.auth.currentUser
+  }
+
   constructor(private auth: Auth, private firestore : Firestore) { }
 
   createAccount(email:string, password:string){
   return createUserWithEmailAndPassword(this.auth, email, password);
-   
   }
 
-  setUserDetails(firstName:string, lastName:string, id:string){
-    const userColRef = doc(this.firestore, 'Users', id);
-    return setDoc(userColRef, {firstName, lastName, id})
+  setUserDetails(firstName:string, email:string, lastName:string, userID:string){
+    const userColRef = doc(this.firestore, 'Users', userID);
+    return setDoc(userColRef, {email, firstName, lastName, userID})
   }
 
-  sendEmailVerification(email:any){
-    return sendEmailVerification(email)
+  sendEmailVerification(){
+    const currentUser  = this.auth.currentUser
+    // sendEmailVerification(currentUser)
   }
 
   signIn(email:string, password:string){
@@ -31,20 +36,9 @@ export class AuthService {
    return signOut(this.auth)
   }
 
-  currentUser(){
-   return  user(this.auth)
-  }
-
   resetPassword(email:string){
    return sendPasswordResetEmail(this.auth, email)
   }
 
-  isUserAuthenticated(){
-    if(this.auth.currentUser?.isAnonymous){
-      console.log('user is not auth');
-    } else if (!this.auth.currentUser?.isAnonymous){
-      console.log('user is auth');
-      
-    }
-  }
+  
 }

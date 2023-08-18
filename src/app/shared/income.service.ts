@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, doc, getDoc, updateDoc } from '@angular/fire/firestore';
-import { Auth } from '@angular/fire/auth';
+import { Firestore, addDoc, collection, collectionData, doc, getDoc, updateDoc, query, where } from '@angular/fire/firestore';
+import { Auth, user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +27,13 @@ export class IncomeService {
   }
  
 
-  // User specific income <<<<< The code below allows user to read and write thier own income without affecing other users code
+  
 
 
-  getUserData(){
-    const colRef = collection(this.firestore, 'Users');
-    return collectionData(colRef, {idField: 'id'});
+  getUserData(id:string){
+    const userDocRef = doc(this.firestore, `Users`, id)
+    const userSnap = getDoc(userDocRef)
+    return userSnap
   }
 
 
