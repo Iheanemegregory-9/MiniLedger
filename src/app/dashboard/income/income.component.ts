@@ -1,6 +1,6 @@
 import { Component, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceService } from 'src/app/shared/service.service';
+import { Message, MessageService } from 'primeng/api';
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { FilterSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { EditSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
@@ -12,6 +12,7 @@ import { Auth, onAuthStateChanged } from '@angular/fire/auth';
   selector: 'app-income',
   templateUrl: './income.component.html',
   styleUrls: ['./income.component.css'],
+  providers: [MessageService]
 })
 export class IncomeComponent implements OnInit {
 
@@ -20,7 +21,7 @@ export class IncomeComponent implements OnInit {
   public editSettings?: EditSettingsModel;
   public toolbar?: ToolbarItems[];
 
-  constructor(private incomeService: IncomeService, private activatedRoute: ActivatedRoute, private authService : AuthService, private auth: Auth){
+  constructor(private incomeService: IncomeService, private activatedRoute: ActivatedRoute, private authService : AuthService, private auth: Auth, private messageService: MessageService){
 
   }
 
@@ -37,7 +38,7 @@ export class IncomeComponent implements OnInit {
   userID:any;
   userDetails: any = {};
   isVerified!:boolean;
-
+  email:any;
   dataDetails:any;
 
 
@@ -46,14 +47,17 @@ export class IncomeComponent implements OnInit {
     this.auth.onAuthStateChanged((user) => {
       if(user){
         this.userID = user.uid
+        this.email = user?.email
         console.log(user.uid);
         this.getUserDetails(this.userID) 
+        this.isEmailVerified()
       }
       else{
         console.log('no user');
       }
     })
     this.loadIncomeData();
+
   }
   
 
@@ -114,29 +118,34 @@ export class IncomeComponent implements OnInit {
 
 
   isEmailVerified(){
-    const verified = this.authService.currentUser()?.emailVerified
-    if(verified){
+    const verified = this.auth.currentUser?.emailVerified
+    console.log(verified);
+    
+    if(verified){ 
         this.isVerified = true
         } else if(!verified){
         this.isVerified = false
        } 
   }
 
+
+
+  sendVerificationEmail(){
+    const user = this.auth.currentUser;
+    this.authService.sendEmailVerification(user).then(()=>{
+
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Verification Email Sent' });
+    
+      console.log('Verification Email sent');
+    }, err =>{
+      console.log('Unable to send email', err);
+      
+    })
+  }
+
  
 
-  // userStateChanged() {
-  //   this.auth.onAuthStateChanged((user) => {
-  //     if(user){
-  //       this.userID = user.uid
-  //       console.log(user.uid);  
-  //     }
-
-  //     else{
-  //       console.log('no user');
-  //     }
-  //   })
-
-  // }
+  
 
 
 }

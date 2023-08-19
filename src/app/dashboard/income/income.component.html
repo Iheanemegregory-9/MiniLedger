@@ -1,4 +1,5 @@
 <app-header></app-header>
+<p-toast></p-toast>
 <div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
     <div class="grid">
         <div class="col-12 md:col-6 lg:col-3">
@@ -13,7 +14,7 @@
                                 <p class="text-sm">
                                     Email: {{userDetails.email}} 
                                     <span>
-                                        <i class='bx bx-user-x bx-sm bx-flashing text-red-500 cursor-pointer' pTooltip="email not verified"  *ngIf="!isVerified" routerLink="/verify"> </i>
+                                        <i class='bx bx-user-x bx-sm bx-flashing text-red-500 cursor-pointer' pTooltip="email not verified"  *ngIf="!isVerified" (click)="sendVerificationEmail()"></i>
                                     </span>
                                     <span>
                                         <i class='bx bx-user-check bx-sm text-green-500' pTooltip="email verified" *ngIf="isVerified"> </i>  

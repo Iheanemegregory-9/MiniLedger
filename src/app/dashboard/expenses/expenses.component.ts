@@ -3,13 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { ExpenseService } from 'src/app/shared/expense.service';
 import { Auth } from '@angular/fire/auth';
+import { Message, MessageService } from 'primeng/api';
+
 
 
 
 @Component({
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
-  styleUrls: ['./expenses.component.css']
+  styleUrls: ['./expenses.component.css'],
+  providers: [MessageService]
 })
 export class ExpensesComponent implements OnInit {
 
@@ -35,7 +38,8 @@ export class ExpensesComponent implements OnInit {
     private expenseService: ExpenseService, 
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private auth: Auth
+    private auth: Auth,
+    private messageService: MessageService
     ){ }
 
  
@@ -45,6 +49,7 @@ export class ExpensesComponent implements OnInit {
       if(user){
         this.userID = user.uid
         console.log(user.uid);
+        this.isEmailVerified()
         this.getUserDetails(this.userID) 
       }
       else{
@@ -103,6 +108,20 @@ export class ExpensesComponent implements OnInit {
         } else if(!verified){
         this.isVerified = false
        }
+  }
+
+
+  sendVerificationEmail(){
+    const user = this.auth.currentUser;
+    this.authService.sendEmailVerification(user).then(()=>{
+
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Verification Email Sent' });
+    
+      console.log('Verification Email sent');
+    }, err =>{
+      console.log('Unable to send email', err);
+      
+    })
   }
 
   
