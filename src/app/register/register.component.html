@@ -1,32 +1,76 @@
+<p-toast></p-toast>
 <div class="flex h-screen justify-content-center align-items-center">
-
     <div class="surface-card  p-4 shadow-2 border-round w-full lg:w-6">
         <div class="text-center mb-5">
-            <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+            <!-- <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
+            <div class="text-900 text-3xl font-medium mb-3">Create an account today</div>
             <span class="text-600 font-medium line-height-3">Already have an account?</span>
             <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" routerLink="/login">Login here</a>
         </div>
 
-        <div class="grid">
-            <div class="col">
-                <label for="firstName" class="block text-900 font-medium mb-2">First Name</label>
-                <input id="firstName"type="email" name="firstName" [(ngModel)]="firstName" placeholder="your first name" pInputText class="w-full mb-3">
+        <form #form="ngForm" novalidate>
+            <div class="grid">
+                <div class="col">
+                    <label for="firstName" class="block text-900 font-medium mb-2">First Name</label>
+                    <input id="firstName"type="text" name="firstName" [(ngModel)]="firstName" placeholder="your first name" required pInputText class="w-full mb-3" #firstNameValue="ngModel"  pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']{2,}"> 
+                    <!-- <p-message severity="error" text="Field is required"></p-message> -->
+                    <small id="firstName-help" *ngIf="firstNameValue.invalid" class="p-error">
+                        <ng-container *ngIf="firstNameValue.invalid && (firstNameValue.touched)">
+                            First Name is required.
+                        </ng-container>
+                        <ng-container *ngIf="firstNameValue.errors?.['pattern']">
+                            Please enter only text
+                        </ng-container>
+                    </small>
+
+
+                    <label for="email" class="block text-900 font-medium mb-2">Email</label>
+                    <input id="email"type="text" name="email" required [(ngModel)]="email" placeholder="your email" pInputText class="w-full mb-3" #emailValue="ngModel" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+
+                    <small id="firstName-help" *ngIf="emailValue.invalid" class="p-error">
+                        <ng-container *ngIf="emailValue.invalid && (emailValue.touched)">
+                            Email is required.
+                        </ng-container> <br>
+                        <ng-container *ngIf="emailValue.errors?.['pattern']">
+                            Email should be in this format greg@gmail.com
+                        </ng-container>
+                    </small>
+                    
+                </div> 
+                <div class="col">
+                    <label for="lastName" class="block text-900 font-medium mb-2">Last Name</label>
+                    <input id="lastName" type="text" name="lastName" required [(ngModel)]="lastName" placeholder="your last name" pInputText class="w-full mb-3" #lastNameValue="ngModel" aria-describedby="lastName-help" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']{2,}">
+                    <small id="lastName-help" *ngIf="lastNameValue.invalid" class="p-error">
+                        <ng-container *ngIf="lastNameValue.invalid && (lastNameValue.touched)">
+                            Last Name is required.
+                        </ng-container>
+                        <ng-container *ngIf="lastNameValue.errors?.['pattern']">
+                            Please enter only text
+                        </ng-container>
+                    </small>
         
-                <label for="lastName" lass="block text-900 font-medium mb-2">Last Name</label>
-                <input id="lastName" type="email" name="lastName" [(ngModel)]="lastName" placeholder="Email address" pInputText class="w-full mb-3">
+        
+                    <label for="passValue" class="block text-900 font-medium mb-2">Password</label>
+                    <p-password id="passValue" [(ngModel)]="password" name="password" type="password" placeholder="Password" required class="w-full mb-3" passValue="ngModel" [toggleMask]="true"> 
+                    <ng-template pTemplate="header">
+                        <h6>Pick a password</h6>
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <!-- <p-divider></p-divider> -->
+                        <hr>
+                        <p class="mt-2">Suggestions</p>
+                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                            <li>At least one lowercase</li>
+                            <li>At least one uppercase</li>
+                            <li>At least one numeric</li>
+                            <li>Minimum 8 characters</li>
+                        </ul>
+                    </ng-template>
+                </p-password>
+                </div>
+                <button (click)="createAccount(email, password, firstName, lastName, userID)" pButton pRipple [label]="btnMessage" icon="pi pi-user" class="w-full" [loading]="loading" [disabled]="form.invalid"></button>
             </div>
-        
-            <div class="col">
-    
-                <label for="email1" class="block text-900 font-medium mb-2">Email</label>
-                <input id="email1" type="email" name="email" [(ngModel)]="email" placeholder="Email address" pInputText class="w-full mb-3">
-        
-                <label for="password1" class="block text-900 font-medium mb-2">Password</label>
-                <input id="password1" [(ngModel)]="password" name="password" type="password" placeholder="Password" pInputText class="w-full mb-3">
-            </div>
-            <button (click)="createAccount(email, password, firstName, lastName, userID)" pButton pRipple label="Sign Up" icon="pi pi-user" class="w-full"></button>
-        </div>
+        </form>
 
     </div>
 </div>
