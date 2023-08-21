@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, addDoc, Firestore, collectionData, doc, getDoc } from '@angular/fire/firestore';
+import { collection, addDoc, Firestore, collectionData, doc, getDoc, Timestamp } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -25,9 +25,26 @@ export class ExpenseService {
     return docSnap;
   }
 
+
+  // get User specific data
+
   getUserData(id:string){
     const userDocRef = doc(this.firestore, `Users`, id)
     const userSnap = getDoc(userDocRef)
     return userSnap
+  }
+
+
+  // add new Expense
+
+  setUserIncome(description:string, source:string, price:number, date:Timestamp, id:string){
+    const userRef = collection(this.firestore, 'Users', id, 'Expenses');
+    const userExpenseData = addDoc(userRef, {
+      description,
+      source,
+      price,
+      date,
+    })
+    return userExpenseData;
   }
 }

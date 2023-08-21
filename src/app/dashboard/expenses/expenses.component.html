@@ -1,5 +1,6 @@
 <app-header></app-header>
 
+<p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'500ms'" [hideTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'" [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
 
 <div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
     <div class="grid">
@@ -23,16 +24,16 @@
                                 </p> 
                             </ng-template>
                     </div>
-                        <div class="text-900 font-medium text-md">
+                    <div class="text-900 font-medium text-md">
 
-                            <p-skeleton width="10rem" height="2rem" styleClass="mb-2">
-                            </p-skeleton> 
-                            <ng-template #lastName ngFor="userName">
-                                <p>
-                                    Name: {{userDetails.firstName}}
-                                </p> 
-                            </ng-template> 
-                        </div>
+                        <p-skeleton width="10rem" height="2rem" styleClass="mb-2" *ngIf="loading else firstName">
+                        </p-skeleton> 
+                        <ng-template #firstName ngFor="userName">
+                            <p>
+                                Name: {{userDetails.firstName}}
+                            </p> 
+                        </ng-template> 
+                    </div>
                         <!-- <div class="text-900 font-medium text-md"></div> -->
                     </div>
                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width:2.5rem;height:2.5rem">
@@ -93,7 +94,7 @@
 
                     <div class="col">
                         <label for="email1" class="block text-900 font-medium mb-2">Price</label>
-                        <input id="email1" [(ngModel)]="price" name="price" placeholder="Email address" pInputText class="w-full mb-3">
+                        <input id="email1" [(ngModel)]="price" name="price" placeholder="enter the price" pInputText class="w-full mb-3">
 
                         <label class="block text-900 font-medium mb-2">Date</label>
                         <p-calendar [(ngModel)]="date" name="date" class="w-full mb-3 z-5"></p-calendar>
@@ -103,7 +104,7 @@
             </div>
         </ng-template>
         <ng-template pTemplate="footer">
-            <p-button icon="pi pi-plus" (click)="adddNewExpence(description, category, price, date)" label="Add" [loading]="loading"></p-button>
+            <p-button icon="pi pi-plus" (click)="addNewUserExpense(description, category, price, date, userID)" [label]="btnText" [loading]="loading"></p-button> 
         </ng-template>
     </p-dialog>
 </div>
@@ -113,11 +114,12 @@
     [value]="tableItem" styleClass="p-datatable-gridlines" 
     [paginator]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rows]="5"
+    [rows]="4"
     [showCurrentPageReport]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading" 
 >
     <ng-template pTemplate="caption"> 
 
@@ -133,11 +135,19 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product>
-        <tr routerLink="/edit/expense/{{product.id}}" class="cursor-pointer" pTooltip="Click to cedit" >
-            <td>{{ product.description }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.price }}</td>
-            <td>{{ product.date }}</td> 
+        <tr class="cursor-pointer" pTooltip="Click to cedit" >
+            <ng-template *ngIf="loading">
+              <p-skeleton></p-skeleton>
+            </ng-template>
+            <ng-container *ngIf="!loading">
+
+                <td *ngIf="!loading"> {{ product.description }} </td>
+                  <td *ngIf="!loading">{{ product.category }}</td>
+                  <td *ngIf="!loading">{{ product.price | currency: 'NGN' }}</td>
+                  <td *ngIf="!loading">{{ product.date }}</td>
+            </ng-container>
+            
+              
         </tr>
     </ng-template>
     <ng-template pTemplate="summary">

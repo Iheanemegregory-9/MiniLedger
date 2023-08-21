@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  providers: [MessageService]
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private route: Router, private authService: AuthService){}
+  constructor(private route: Router, private authService: AuthService, private MessageService: MessageService){}
 
   loading:boolean = false;
   showGetStarted:boolean = false;
@@ -27,6 +28,10 @@ export class HeaderComponent implements OnInit {
      ]
 
    }
+
+    show(){
+      
+    }
 
 
 
@@ -64,13 +69,12 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut(){
+    this.loading = true; 
     this.authService.signOut()
     localStorage.removeItem('user')
-    // if(this.route.url == ('/')){
-      
-    // }
     this.route.navigate(['/']) 
     this.isUserLoggedin()
+    this.loading = false;
   }
 
 }

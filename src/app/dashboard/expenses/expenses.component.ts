@@ -20,17 +20,18 @@ export class ExpensesComponent implements OnInit {
   category!:string
   price!:number  
   date:Date = new Date();
-  loading:boolean = false
-  tableItem!:any[]
-
+  loading:boolean = true;
+  tableItem!:any[];
+  firstName!:any;
   isVerified = true; 
   userID:any; 
+
+  btnText = 'Add'
 
   userDetails: any = {};
   dataDetails:any;
 
   visible: boolean = false;
-  data:any;
 
 
   constructor(
@@ -56,31 +57,38 @@ export class ExpensesComponent implements OnInit {
         console.log('no user');
       }
     })
-
+    this.getExpenses()
     this.isEmailVerified()
+  }
 
+
+  show(){
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'your new expense has been added' })
   }
 
   openForm(){
     this.visible = true;
   }
   
-  adddNewExpence(description:string, category:any, price:number, date:Date){
+  addNewUserExpense(description:string, category:string, price:number, date:any, id:string){
     this.loading = true
-    this.expenseService.createNewExpense(description, category, price, date).then((res)=>{
-      this.visible = false;
-      console.log(res);  
+    this.btnText = 'adding new expense'
+    this.expenseService.setUserIncome(description, category, price, date, id).then(res =>{
+      console.log(res);
+      console.log('User income data added:' +  description, category, price, date); 
+      this.show()
+      this.loading = false
+      this.btnText = 'Add'
+      this.visible = false
     }, err =>{
       console.log(err);
     })
-
-    this.loading = false;
   }
 
   getExpenses(){
-    this.expenseService.getExpenses().subscribe((res)=>{
-      console.log(res);
+    this.expenseService.getExpenses().subscribe(res =>{
       this.tableItem = res;
+      this.loading = false
     })
   }
 

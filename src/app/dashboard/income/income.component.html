@@ -1,5 +1,5 @@
 <app-header></app-header>
-<p-toast></p-toast>
+<p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'500ms'" [hideTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'" [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
 <div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
     <div class="grid">
         <div class="col-12 md:col-6 lg:col-3">
@@ -24,9 +24,9 @@
                     </div>
                         <div class="text-900 font-medium text-md">
 
-                            <p-skeleton width="10rem" height="2rem" styleClass="mb-2" *ngIf="loading else lastName">
+                            <p-skeleton width="10rem" height="2rem" styleClass="mb-2" *ngIf="loading else firstName">
                             </p-skeleton> 
-                            <ng-template #lastName ngFor="userName">
+                            <ng-template #firstName ngFor="userName">
                                 <p>
                                     Name: {{userDetails.firstName}}
                                 </p> 
@@ -108,8 +108,8 @@
                     <input type="text" name="description" [(ngModel)]="description"  pInputText placeholder="Expense decription" id="descriotion" /> 
                 </div>
                 <div class="flex gap-2 flex-column col-6">
-                    <label htmlFor="descriotion">Category</label>
-                    <input placeholder="Select a Category" pInputText [(ngModel)]="source" name="category">
+                    <label htmlFor="descriotion">Source</label>
+                    <input placeholder="Select your income source" pInputText [(ngModel)]="source" name="source">
                 </div>
                 <div class="flex gap-2 flex-column col-12 w-full">
                     <label htmlFor="descriotion">Price</label>
@@ -122,7 +122,7 @@
             </form>
         </ng-template>
         <ng-template pTemplate="footer">
-            <p-button (click)="addNewIncome(description, source, price, date)" label="Add" [loading]="loading"></p-button>
+            <p-button (click)="addNewUserIncome(description, source, price, date, userID)" [label]="btnText" [loading]="loading"></p-button>
         </ng-template>
     </p-dialog>
 </div>
@@ -132,7 +132,7 @@
     [value]="tableItem" styleClass="p-datatable-gridlines" 
     [paginator]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rows]="5"
+    [rows]="4"
     [showCurrentPageReport]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"

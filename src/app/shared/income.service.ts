@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, doc, getDoc, updateDoc, query, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, getDoc, updateDoc, query, where, Timestamp } from '@angular/fire/firestore';
 import { Auth, user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncomeService {
+  
 
   constructor(private firestore: Firestore, private auth: Auth) { }
 
@@ -27,13 +28,29 @@ export class IncomeService {
   }
  
 
-  
 
-
+  // User specific data 
   getUserData(id:string){
     const userDocRef = doc(this.firestore, `Users`, id)
     const userSnap = getDoc(userDocRef)
     return userSnap
+  }
+
+  setUserIncome(description:string, source:string, price:number, date:Timestamp, id:string){
+    const userRef = collection(this.firestore, 'Users', id, 'Income');
+    const userIncomeData = addDoc(userRef, {
+      description,
+      source,
+      price,
+      date,
+    })
+    return userIncomeData;
+  }
+
+  getUserIncome(id:string){
+    const incomeRef = doc(this.firestore, 'User', 'Inccome');
+    const incomeSnap = getDoc(incomeRef, );
+    return incomeSnap
   }
 
 
