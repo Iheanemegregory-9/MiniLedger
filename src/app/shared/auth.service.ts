@@ -23,9 +23,8 @@ export class AuthService {
     return setDoc(userColRef, {email, firstName, lastName, userID})
   }
 
-  sendEmailVerification(){
-    const currentUser  = this.auth.currentUser
-    // sendEmailVerification(currentUser)
+  sendEmailVerification(user:any){
+   return  sendEmailVerification(user)
   }
 
   signIn(email:string, password:string){

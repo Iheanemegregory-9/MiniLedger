@@ -60,6 +60,7 @@ export class RegisterComponent implements OnInit {
       }
       this.showErrMessage()
       this.loading = false;
+      this.btnMessage = 'Create your account'
     })
    await this.authService.setUserDetails(firstName, email, lastName, this.userID).then(res =>{
     this.firstName = firstName;
@@ -69,8 +70,8 @@ export class RegisterComponent implements OnInit {
       console.log(err.message);
       this.errorMessage = err.message
     })
+    
     this.loading = false;
-
     this.show()
    await this.route.navigate(['/'])
   }

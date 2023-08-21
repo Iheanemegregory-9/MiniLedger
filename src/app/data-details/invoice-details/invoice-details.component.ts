@@ -31,20 +31,4 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
 
-  updateData(description:string, source: string, price:number, date:Date, id:string){
-    this.sharedService.updateIncome(description, source, price, date, id).then(()=>{
-      this.description = description;
-      this.source = source;
-      this.price = price;
-      this.date = date;
-
-
-    }, err=>{
-      console.log(err);
-      
-    })
-
-    this.route.navigate(['/income'])
-  }
-
 }

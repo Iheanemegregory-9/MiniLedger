@@ -19,8 +19,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { SkeletonModule } from 'primeng/skeleton';
-import { PasswordModule } from 'primeng/password';
+import { SkeletonModule } from 'primeng/skeleton'; 
+import { PasswordModule } from 'primeng/password'; 
 
 
 

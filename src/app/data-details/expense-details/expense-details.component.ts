@@ -19,15 +19,15 @@ export class ExpenseDetailsComponent implements OnInit {
   
 
 ngOnInit(): void {
-  this.activatedRoute.paramMap.subscribe(params => {
-     this.itemID = params.get('id');
-    this.sharedService.getExpensesID(this.itemID).then((res)=>{
+  // this.activatedRoute.paramMap.subscribe(params => {
+  //    this.itemID = params.get('id');
+  //   this.sharedService.getExpensesID(this.itemID).then((res)=>{
 
-      this.dataDetails = res.data();
-      console.log(res.data());
+  //     this.dataDetails = res.data();
+  //     console.log(res.data());
       
-    })
-  });
+  //   })
+  // });
 }
 
 }

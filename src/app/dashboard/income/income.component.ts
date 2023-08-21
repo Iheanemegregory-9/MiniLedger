@@ -40,6 +40,7 @@ export class IncomeComponent implements OnInit {
   isVerified!:boolean;
   email:any;
   dataDetails:any;
+  btnText = 'Add'
 
 
   ngOnInit(): void {
@@ -55,9 +56,16 @@ export class IncomeComponent implements OnInit {
       else{
         console.log('no user');
       }
+
+      this.getUserIncome(this.userID)
     })
+
     this.loadIncomeData();
 
+  }
+
+  show(){
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: ' your new income has been added' })
   }
   
 
@@ -65,14 +73,24 @@ export class IncomeComponent implements OnInit {
     this.visible = true;
   }
 
-  addNewIncome(description:string, source:any, price:number, date:Date){
+  addNewUserIncome(description:string, source:string, price:number, date:any, id:string){
     this.loading = true
-    this.incomeService.addNewIncome(description, source, price, date).then((res)=>{
+    this.btnText = 'adding new expense'
+    this.incomeService.setUserIncome(description, source, price, date, id).then(res =>{
       console.log(res);
-      console.log('data added');
+      console.log('User income data added:' +  description, source, price, date); 
+      this.show()
+      this.loading = false
+      this.btnText = 'Add'
       this.visible = false
-      this.loading = false;
-      
+    }, err =>{
+      console.log(err);
+    })
+  }
+
+  getUserIncome(id:string){
+    this.incomeService.getUserIncome(id).then(res =>{
+      console.log(res.data())
     }, err =>{
       console.log(err);
       
@@ -127,7 +145,6 @@ export class IncomeComponent implements OnInit {
         this.isVerified = false
        } 
   }
-
 
 
   sendVerificationEmail(){
