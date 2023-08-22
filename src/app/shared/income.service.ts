@@ -48,9 +48,9 @@ export class IncomeService {
   }
 
   getUserIncome(id:string){
-    const incomeRef = doc(this.firestore, 'User', 'Inccome');
-    const incomeSnap = getDoc(incomeRef, );
-    return incomeSnap
+   const userRes = collection(this.firestore, `Users/${id}/Income`);
+   const userIncomeData = collectionData(userRes, {idField: 'id'})
+   return userIncomeData
   }
 
 
