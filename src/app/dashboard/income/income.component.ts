@@ -60,8 +60,6 @@ export class IncomeComponent implements OnInit {
       this.getUserIncome(this.userID)
     })
 
-    this.loadIncomeData();
-
   }
 
   show(){
@@ -89,21 +87,23 @@ export class IncomeComponent implements OnInit {
   }
 
   getUserIncome(id:string){
-    this.incomeService.getUserIncome(id).then(res =>{
-      console.log(res.data())
+    this.incomeService.getUserIncome(id).subscribe(res =>{
+      this.tableItem = res;
+      this.loading = false;
+      console.log(res)
     }, err =>{
-      console.log(err);
+      console.log(err); 
       
     })
   }
 
-  loadIncomeData(){
-    this.incomeService.getIncomeData().subscribe((res)=>{
-      this.tableItem = res;
-      this.loading = false;
-    })
+  // loadIncomeData(){
+  //   this.incomeService.getIncomeData().subscribe((res)=>{
+  //     this.tableItem = res;
+  //     this.loading = false;
+  //   })
 
-  }
+  // }
 
   loadIncomeByID(id:string){
     this.activatedRoute.paramMap.subscribe(params => {
