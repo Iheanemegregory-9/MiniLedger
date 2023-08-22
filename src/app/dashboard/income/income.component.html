@@ -162,7 +162,7 @@
                 <td *ngIf="!loading"> {{ product.description }} </td>
                   <td *ngIf="!loading">{{ product.source }}</td>
                   <td *ngIf="!loading">{{ product.price | currency: 'NGN' }}</td>
-                  <td *ngIf="!loading">{{ product.date }}</td>
+                  <td *ngIf="!loading">{{ product.date.toDate() | date }}</td>
             </ng-container>
             
               

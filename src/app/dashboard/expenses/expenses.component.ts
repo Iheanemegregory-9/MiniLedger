@@ -19,7 +19,8 @@ export class ExpensesComponent implements OnInit {
   description!:string;
   category!:string
   price!:number  
-  date:Date = new Date();
+  date!:Date
+  formatedDate!:Date
   loading:boolean = true;
   tableItem!:any[];
   firstName!:any;
@@ -52,12 +53,12 @@ export class ExpensesComponent implements OnInit {
         console.log(user.uid);
         this.isEmailVerified()
         this.getUserDetails(this.userID) 
+        this.getUserExpenses(this.userID)
       }
       else{
         console.log('no user');
       }
     })
-    this.getExpenses()
     this.isEmailVerified()
   }
 
@@ -73,7 +74,7 @@ export class ExpensesComponent implements OnInit {
   addNewUserExpense(description:string, category:string, price:number, date:any, id:string){
     this.loading = true
     this.btnText = 'adding new expense'
-    this.expenseService.setUserIncome(description, category, price, date, id).then(res =>{
+    this.expenseService.setUserExpense(description, category, price, date, id).then(res =>{
       console.log(res);
       console.log('User income data added:' +  description, category, price, date); 
       this.show()
@@ -85,10 +86,15 @@ export class ExpensesComponent implements OnInit {
     })
   }
 
-  getExpenses(){
-    this.expenseService.getExpenses().subscribe(res =>{
+  getUserExpenses(id:string){
+    this.expenseService.getUserExpense(id).subscribe(res =>{
       this.tableItem = res;
+      // this.tableItem.forEach((expense) =>{
+      //  this.formatedDate = expense.date.toDate();
+      // })
       this.loading = false
+    }, err =>{
+      console.log(err);
     })
   }
 

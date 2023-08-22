@@ -37,14 +37,20 @@ export class ExpenseService {
 
   // add new Expense
 
-  setUserIncome(description:string, source:string, price:number, date:Timestamp, id:string){
+  setUserExpense(description:string, category:string, price:number, date:Timestamp, id:string){
     const userRef = collection(this.firestore, 'Users', id, 'Expenses');
     const userExpenseData = addDoc(userRef, {
       description,
-      source,
+      category,
       price,
       date,
     })
     return userExpenseData;
+  }
+
+  getUserExpense(id:string){
+  const userExenseRef = collection(this.firestore, `Users/${id}/Expenses`);
+  const userExpenses = collectionData(userExenseRef, {idField: 'id'})
+  return userExpenses
   }
 }
