@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { ExpenseService } from 'src/app/shared/expense.service';
 import { Auth } from '@angular/fire/auth';
-import { Message, MessageService } from 'primeng/api';
+import { Message, MessageService, ConfirmationService  } from 'primeng/api';
 
 
 
@@ -12,7 +12,7 @@ import { Message, MessageService } from 'primeng/api';
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
   styleUrls: ['./expenses.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class ExpensesComponent implements OnInit {
 
@@ -26,13 +26,12 @@ export class ExpensesComponent implements OnInit {
   firstName!:any;
   isVerified = true; 
   userID:any; 
+  productDialog: boolean = false;
 
   btnText = 'Add'
 
   userDetails: any = {};
   dataDetails:any;
-
-  visible: boolean = false;
 
 
   constructor(
@@ -41,7 +40,8 @@ export class ExpensesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private auth: Auth,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
     ){ }
 
  
@@ -63,13 +63,33 @@ export class ExpensesComponent implements OnInit {
   }
 
 
+  confirm(event: Event) {
+    this.confirmationService.confirm({
+        target: event.target as EventTarget,
+        message: 'Are you sure that you want to proceed?',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+        },
+        reject: () => {
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+        }
+    });
+}
+
+
   show(){
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'your new expense has been added' })
   }
 
-  openForm(){
-    this.visible = true;
-  }
+  openNew() {
+    this.productDialog = true;
+}
+
+hideDialog() {
+  this.productDialog = false;
+  // this.submitted = false;
+}
   
   addNewUserExpense(description:string, category:string, price:number, date:any, id:string){
     this.loading = true
@@ -77,14 +97,24 @@ export class ExpensesComponent implements OnInit {
     this.expenseService.setUserExpense(description, category, price, date, id).then(res =>{
       console.log(res);
       console.log('User income data added:' +  description, category, price, date); 
-      this.show()
       this.loading = false
+      this.hideDialog()
       this.btnText = 'Add'
-      this.visible = false
     }, err =>{
       console.log(err);
     })
   }
+
+  deleteProduct() {
+    this.confirmationService.confirm({
+        message: 'Are you sure you want to delete this record'  + '?',
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        }
+    });
+}
 
   getUserExpenses(id:string){
     this.expenseService.getUserExpense(id).subscribe(res =>{

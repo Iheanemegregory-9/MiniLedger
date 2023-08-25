@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'500ms'" [hideTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'" [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+<p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'500ms'" [hideTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'"></p-toast>
 
 <div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
     <div class="grid">
@@ -71,40 +71,45 @@
     </div>
 </div>
         
-
+  
 
 
 
 <!-- add new expense dialog form -->
 
-<div class="card flex justify-content-center">
-    
-    <p-dialog header="Add New Expense" [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="true" [resizable]="true" [maximizable]="true">
-        <ng-template pTemplate="p-dialog-content">
 
-            <div class="surface-card p-4 shadow-2 border-round">
-                <div class="grid">
-                    <div class="col">
-                        <label for="email1" class="block text-900 font-medium mb-2">Description</label>
-                        <input id="email1"  name="description" [(ngModel)]="description" pInputText class="w-full mb-3">
 
-                        <label for="category" class="block text-900 font-medium mb-2">Category</label>
-                        <input id="category"  name="category"  placeholder="Category" [(ngModel)]="category" pInputText class="w-full mb-3">
-                    </div>
 
-                    <div class="col">
-                        <label for="price" class="block text-900 font-medium mb-2">Price</label>
-                        <input id="price" [(ngModel)]="price" name="price" placeholder="enter the price" pInputText class="w-full mb-3">
 
-                        <label class="block text-900 font-medium mb-2">Date</label>
-                        <p-calendar [(ngModel)]="date" name="date" class="w-full mb-3 z-5"></p-calendar>
-                    </div>
-            
-                </div>
+
+
+
+<div class="card flex justify-content-center px-6">
+    <p-dialog [(visible)]="productDialog" [style]="{ width: '550px' }" header="Expense Details" [modal]="true" [maximizable]="true" styleClass="p-fluid" >
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="name">Description</label>
+                <textarea id="description" pInputTextarea [(ngModel)]="description" required rows="3" cols="10"></textarea>
+                <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
+            </div>
+            <div class="field">
+                <label for="category">Category</label>
+                <input type="text" pInputText id="name" [(ngModel)]="category" required autofocus />
+            </div>
+            <div class="field">
+                <label for="price">Price</label>
+                <p-inputNumber inputId="integeronly" [(ngModel)]="price"> </p-inputNumber>
+            </div>
+
+            <div class="field">
+                <label for="date">Date</label>
+                <p-calendar [(ngModel)]="date" [inline]="true"  [showWeek]="true" [showIcon]="true"></p-calendar>
             </div>
         </ng-template>
+    
         <ng-template pTemplate="footer">
-            <p-button icon="pi pi-plus" (click)="addNewUserExpense(description, category, price, date, userID)" [label]="btnText" [loading]="loading"></p-button> 
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addNewUserExpense(description, category, price, date, userID)" [label]="btnText" [loading]="loading"></button>
         </ng-template>
     </p-dialog>
 </div>
@@ -120,18 +125,20 @@
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50]"
     [loading]="loading" 
+    class="hidden lg:block xl:block"
 >
     <ng-template pTemplate="caption"> 
 
-        <p-button icon="pi pi-plus" pRipple label="Add New Expense" (onClick)="openForm()"> </p-button>
-
-    </ng-template>
+        <p-button icon="pi pi-plus" pRipple label="Add New Expense" (onClick)="openNew()"> </p-button>
+ 
+    </ng-template> 
     <ng-template pTemplate="header">
         <tr>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Date Added</th>
+            <th pSortableColumn="description" style="width:20%">Description <p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="category" style="width:20%">Category <p-sortIcon field="category"></p-sortIcon> </th>
+            <th pSortableColumn="price" style="width:20%">Price <p-sortIcon field="price"></p-sortIcon></th>
+            <th pSortableColumn="date" style="width:20%">Date Added <p-sortIcon field="date"></p-sortIcon></th>
+            <th style="width:20%">Action</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product>
@@ -145,6 +152,10 @@
                   <td *ngIf="!loading">{{ product.category }}</td>
                   <td *ngIf="!loading">{{ product.price | currency: 'NGN' }}</td>
                   <td *ngIf="!loading">{{ product.date.toDate() | date}}</td>
+                <td *ngIf="!loading" class="flex justify-content-around">
+                    <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-text"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-text text-red-600"></button>
+                </td>
             </ng-container>
             
               
@@ -159,6 +170,29 @@
         </ng-template>
     </ng-template>
 </p-table>
+
+
+
+<p-button icon="pi pi-plus" class="lg:hidden xl:hidden px-5" pRipple label="Add New Expense" (onClick)="openNew()"> </p-button>
+
+
+
+<div class="surface-ground px-4 flex justify-content-between align-items-center border-top-2 surface-border border-bottom-2  lg:hidden xl:hidden" *ngFor="let data of tableItem; let i = index">
+    <ul class="list-none p-0 m-0">
+        <li class="flex align-items-center py-3 px-2  flex-wrap">
+            <div class="text-900 font-medium text-xl w-full md:w-8 md:flex-order-0 flex-order-1">{{data.price | currency: 'NGN'}}</div>
+            <div class="text-900 w-full font-bold text-2xl md:w-8 md:flex-order-0 flex-order-1">{{data.description}}</div> 
+            <div class="text-500 md:w-8 md:flex-order-0 flex-order-1">{{data.category}}</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{data.date.toDate() | date}}</div>
+        </li>
+    </ul>
+    <div class="w-6 md:w-2 flex justify-content-end flex-column">
+        <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-text"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-text text-red-600"></button>
+    </div>
+</div>
+<p-divider layout="horizontal">
+</p-divider> 
 
 
 
