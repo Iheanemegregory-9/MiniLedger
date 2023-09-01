@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { ExpenseService } from 'src/app/shared/expense.service';
 import { Auth } from '@angular/fire/auth';
-import { Message, MessageService } from 'primeng/api';
+import { Message, MessageService, ConfirmationService  } from 'primeng/api';
 
 
 
@@ -12,7 +12,7 @@ import { Message, MessageService } from 'primeng/api';
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
   styleUrls: ['./expenses.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class ExpensesComponent implements OnInit {
 
@@ -20,19 +20,20 @@ export class ExpensesComponent implements OnInit {
   category!:string
   price!:number  
   date!:Date
+  itemID!:any;
   formatedDate!:Date
   loading:boolean = true;
   tableItem!:any[];
   firstName!:any;
   isVerified = true; 
   userID:any; 
+  productDialog: boolean = false;
+  editExpenseDialog: boolean = false;
 
   btnText = 'Add'
 
   userDetails: any = {};
   dataDetails:any;
-
-  visible: boolean = false;
 
 
   constructor(
@@ -41,7 +42,8 @@ export class ExpensesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private auth: Auth,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
     ){ }
 
  
@@ -67,9 +69,16 @@ export class ExpensesComponent implements OnInit {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'your new expense has been added' })
   }
 
-  openForm(){
-    this.visible = true;
-  }
+  openNew() {
+    this.productDialog = true;
+}
+
+hideDialog() {
+  this.productDialog = false;
+}
+hideEditDialog(){
+  this.editExpenseDialog = false
+}
   
   addNewUserExpense(description:string, category:string, price:number, date:any, id:string){
     this.loading = true
@@ -77,10 +86,9 @@ export class ExpensesComponent implements OnInit {
     this.expenseService.setUserExpense(description, category, price, date, id).then(res =>{
       console.log(res);
       console.log('User income data added:' +  description, category, price, date); 
-      this.show()
       this.loading = false
+      this.hideDialog()
       this.btnText = 'Add'
-      this.visible = false
     }, err =>{
       console.log(err);
     })
@@ -89,12 +97,50 @@ export class ExpensesComponent implements OnInit {
   getUserExpenses(id:string){
     this.expenseService.getUserExpense(id).subscribe(res =>{
       this.tableItem = res;
-      // this.tableItem.forEach((expense) =>{
-      //  this.formatedDate = expense.date.toDate();
-      // })
       this.loading = false
     }, err =>{
       console.log(err);
+    })
+  }
+
+
+  openEditDialog(userId:string, itemID:string){
+    this.editExpenseDialog = true;
+    this.activatedRoute.paramMap.subscribe(param =>{
+      this.itemID = param.get('id')
+     this.expenseService.getUserExpenseById(userId, itemID).then(res =>{
+      this.dataDetails = res.data()
+        this.description = this.dataDetails.description;
+        this.category = this.dataDetails.category;
+        this.price = this.dataDetails.price;
+        this.date = this.dataDetails.date.toDate();
+        this.itemID = itemID
+     }, err =>{
+      console.log(err.message);
+     })
+     
+    })
+  }
+
+  updateUserExpense(description:string, category:string, price:number, date:any, userId:string, incomeId:string ){
+    console.log('Calling update income with userid:', this.userID, 'and the income id is:', incomeId );
+    this.expenseService.editUserIncome(description, category, price, date, userId, incomeId).then(res=>{
+
+      console.log(res);
+      
+      this.loading = true
+      this.hideEditDialog()
+    }, err =>{
+      console.log(err.message);
+    })
+  }
+
+  deleteUserIncome(userId:string, expenseId:string){
+    this.expenseService.deleteUerExpense(userId, expenseId).then(err =>{
+      console.log('Expense has been deleted');
+    }, err => {
+      console.log(err.message);
+      
     })
   }
 

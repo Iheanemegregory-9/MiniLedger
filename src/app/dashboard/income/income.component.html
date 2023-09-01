@@ -70,59 +70,65 @@
 </div>
 
 
-<div class="grid justify-content-center" *ngIf="!editIsHidden"> 
-    <p-skeleton width="10rem" height="2rem" styleClass="mb-2" *ngIf="loading else formEdit">
-    </p-skeleton> 
-    <p-card class=" shadow-8 "> 
-        <ng-template #formEdit>
-            <div class="card col gap-5 mb-5">
-               <label for="description" class="block text-900 font-medium mb-2">Description</label>
-               <input type="text"  id="description" pInputText [(ngModel)]="dataDetails.description"/>
-               
-               <label for="source" class="block text-900 font-medium mb-2">Source</label>
-               <input type="text" id="source" pInputText [(ngModel)]="dataDetails.source"/>  
-           </div>
-
-           <div class="card col gap-5 mb-5">
-               <label for="price" class="block text-900 font-medium mb-2">Price</label>
-               <input type="text" id="price" pInputText [(ngModel)]="dataDetails.price"/>
-               <label for="date" class="block text-900 font-medium mb-2">Price</label>
-               <p-calendar [(ngModel)]="dataDetails.date" id="date" [touchUI]="true" [readonlyInput]="false"></p-calendar>
-           </div> 
-           <p-button class="w-full">Update</p-button>
-        </ng-template>
-        
-    </p-card> 
-</div>
-
 
 <!-- add new expense dialog form -->
 
-<div class="card flex justify-content-center">
-    
-    <p-dialog header="Add New Expense" [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="true" [resizable]="true" [maximizable]="true">
-        <ng-template pTemplate="p-dialog-content">
-            <form class="grid" #f="ngForm"> 
-                <div class="flex gap-2 flex-column col-6">
-                    <label htmlFor="descriotion">Description</label>
-                    <input type="text" name="description" [(ngModel)]="description"  pInputText placeholder="Expense decription" id="descriotion" /> 
-                </div>
-                <div class="flex gap-2 flex-column col-6">
-                    <label htmlFor="descriotion">Source</label>
-                    <input placeholder="Select your income source" pInputText [(ngModel)]="source" name="source">
-                </div>
-                <div class="flex gap-2 flex-column col-12 w-full">
-                    <label htmlFor="descriotion">Price</label>
-                    <p-inputNumber [(ngModel)]="price" inputId="integeronly" class="w-full" name="price"> </p-inputNumber>
-                </div>
-                <div class="flex gap-2 flex-column col-12 w-full">
-                    <label htmlFor="descriotion">Date</label>
-                    <p-calendar [(ngModel)]="date" name="calender"></p-calendar>
-                </div>
-            </form>
+<div class="card flex justify-content-center px-6">
+    <p-dialog [(visible)]="addNewIncomeDialog" [style]="{ width: '550px' }" header="Income Details" [modal]="true" [maximizable]="true" styleClass="p-fluid" >
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="name">Description</label>
+                <textarea id="description" pInputTextarea [(ngModel)]="description" required rows="3" cols="10"></textarea>
+                <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
+            </div>
+            <div class="field">
+                <label for="category">Source</label>
+                <input type="text" pInputText id="name" [(ngModel)]="source" required autofocus />
+            </div>
+            <div class="field">
+                <label for="price">Price</label>
+                <p-inputNumber inputId="integeronly" [(ngModel)]="price"> </p-inputNumber>
+            </div>
+
+            <div class="field">
+                <label for="date">Date</label>
+                <p-calendar [(ngModel)]="date" [inline]="true"  [showWeek]="true" [showIcon]="true"></p-calendar>
+            </div>
         </ng-template>
+    
         <ng-template pTemplate="footer">
-            <p-button (click)="addNewUserIncome(description, source, price, date, userID)" [label]="btnText" [loading]="loading"></p-button>
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addNewUserIncome(description, source, price, date, userID)" [label]="btnText" [loading]="loading"></button> 
+        </ng-template>
+    </p-dialog>
+</div>
+
+<div class="card flex justify-content-center px-6">
+    <p-dialog [(visible)]="editNewIncomeDialog" [style]="{ width: '550px'}" header="Income Details" [modal]="true" [maximizable]="true" styleClass="p-fluid" >
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="name">Description</label>
+                <textarea id="description" pInputTextarea [(ngModel)]="description" required rows="3" cols="10"></textarea>
+                <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
+            </div>
+            <div class="field">
+                <label for="category">Source</label>
+                <input type="text" pInputText id="name" [(ngModel)]="source" required autofocus />
+            </div>
+            <div class="field">
+                <label for="price">Price</label>
+                <p-inputNumber inputId="integeronly" [(ngModel)]="price"> </p-inputNumber>
+            </div>
+
+            <div class="field">
+                <label for="date">Date</label>
+                <p-calendar [(ngModel)]="date" [inline]="true"  [showWeek]="true" [showIcon]="true"></p-calendar>
+            </div>
+        </ng-template>
+    
+        <ng-template pTemplate="footer" >
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideEditDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateUserIncome(description, source, price, date, userID, itemID)" label="Edit" [loading]="loading"></button>   
         </ng-template>
     </p-dialog>
 </div>
@@ -132,37 +138,42 @@
     [value]="tableItem" styleClass="p-datatable-gridlines" 
     [paginator]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rows]="4"
+    [rows]="25"
     [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [loading]="loading" 
+    [rowsPerPageOptions]="[25, 50, 100]"
+    [loading]="loading"
+    dataKey="id"
+    class="hidden lg:block xl:block" 
 >
     <ng-template pTemplate="caption"> 
 
-        <p-button icon="pi pi-plus" pRipple label="Add New Income" (onClick)="openForm()"> </p-button>
+        <p-button icon="pi pi-plus" pRipple label="Add New Income" (onClick)="openNew()"> </p-button>
 
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th>Description</th>
-            <th>Source</th>
-            <th>Price</th>
-            <th>Date Added</th>
+            <th pSortableColumn="description" style="width:20%">Description <p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="source" style="width:20%">Source<p-sortIcon field="source"></p-sortIcon> </th>
+            <th pSortableColumn="price" style="width:20%">Price <p-sortIcon field="price"></p-sortIcon></th>
+            <th pSortableColumn="date" style="width:20%">Date Added <p-sortIcon field="date"></p-sortIcon></th>
+            <th style="width:20%">Action</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-product>
-        <tr (click)="loadIncomeByID(product.id)" class="cursor-pointer" pTooltip="Click to cedit" >
+    <ng-template pTemplate="body" let-product let-editing="editing">
+        <tr class="cursor-pointer" pTooltip="Click to cedit" >
             <ng-template *ngIf="loading">
               <p-skeleton></p-skeleton>
             </ng-template>
             <ng-container *ngIf="!loading">
-
                 <td *ngIf="!loading"> {{ product.description }} </td>
                   <td *ngIf="!loading">{{ product.source }}</td>
                   <td *ngIf="!loading">{{ product.price | currency: 'NGN' }}</td>
-                  <td *ngIf="!loading">{{ product.date.toDate() | date }}</td>
+                  <td *ngIf="!loading">{{ product.date.toDate() | date}}</td>
+                <td *ngIf="!loading" class="flex justify-content-around">
+                    <button pButton pRipple label="Edit" (click)="openEditDialog(userID, product.id)" icon="pi pi-pencil" class="p-button-text"></button>
+                    <button pButton pRipple label="Delete" (click)="deleteUserIncome(userID, product.id)" icon="pi pi-trash" class="p-button-text text-red-600"></button>
+                </td>
             </ng-container>
             
               
@@ -178,6 +189,27 @@
     </ng-template>
 </p-table>
 
+
+
+
+<!-- mobile data view -->
+<p-button icon="pi pi-plus" class="lg:hidden xl:hidden px-5" pRipple label="Add New Expense" (onClick)="openNew()"> </p-button>
+<div class="surface-ground px-4 flex justify-content-between align-items-center border-top-2 surface-border border-bottom-2  lg:hidden xl:hidden" *ngFor="let data of tableItem; let i = index">
+    <ul class="list-none p-0 m-0">
+        <li class="flex align-items-center py-3 px-2  flex-wrap">
+            <div class="text-900 font-medium text-xl w-full md:w-8 md:flex-order-0 flex-order-1">{{data.price}}</div>
+            <div class="text-900 w-full font-bold text-2xl md:w-8 md:flex-order-0 flex-order-1">{{data.description}}</div> 
+            <div class="text-500 md:w-8 md:flex-order-0 flex-order-1">{{data.source}}</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{data.date.toDate() | date}}</div>
+        </li>
+    </ul>
+    <div class="w-6 md:w-2 flex justify-content-end flex-column">
+        <button pButton pRipple label="Edit" icon="pi pi-pencil" (click)="updateUserIncome(description, source, price, date, userID, data.id)" class="p-button-text"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-text text-red-600" (click)="deleteUserIncome(userID, data.id)"></button> 
+    </div>
+</div>
+<p-divider layout="horizontal">
+</p-divider>
 
 
 

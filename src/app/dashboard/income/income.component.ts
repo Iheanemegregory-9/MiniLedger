@@ -28,12 +28,12 @@ export class IncomeComponent implements OnInit {
   description!:string;
   source!:string;
   price!:number;  
-  date:Date = new Date();
+  date!:Date;
   loading:boolean = true;
   tableItem!:any[]
-  visible: boolean = false;
+  addNewIncomeDialog: boolean = false;
+  editNewIncomeDialog: boolean = false;
   itemID!:any;
-  editIsHidden = true;
   firstName!:any;
   userID:any;
   userDetails: any = {};
@@ -44,13 +44,12 @@ export class IncomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     this.auth.onAuthStateChanged((user) => {
       if(user){
         this.userID = user.uid
         this.email = user?.email
         console.log(user.uid);
-        this.getUserDetails(this.userID) 
+        this.getUserDetails(this.userID)
         this.isEmailVerified()
       }
       else{
@@ -67,9 +66,18 @@ export class IncomeComponent implements OnInit {
   }
   
 
-  openForm(){
-    this.visible = true;
+  openNew() {
+    this.addNewIncomeDialog = true;
   }
+
+hideDialog() {
+  this.addNewIncomeDialog = false;
+}
+hideEditDialog(){
+  this.editNewIncomeDialog = false
+}
+
+
 
   addNewUserIncome(description:string, source:string, price:number, date:any, id:string){
     this.loading = true
@@ -80,7 +88,7 @@ export class IncomeComponent implements OnInit {
       this.show()
       this.loading = false
       this.btnText = 'Add'
-      this.visible = false
+      this.addNewIncomeDialog = false
     }, err =>{
       console.log(err);
     })
@@ -97,14 +105,46 @@ export class IncomeComponent implements OnInit {
     })
   }
 
-  // loadIncomeData(){
-  //   this.incomeService.getIncomeData().subscribe((res)=>{
-  //     this.tableItem = res;
-  //     this.loading = false;
-  //   })
+  openEditDialog(userId:string, itemID:string){
+    this.editNewIncomeDialog = true;
+    this.activatedRoute.paramMap.subscribe(param =>{
+      this.itemID = param.get('id')
+      this.incomeService.getUserIncomeById(userId, itemID).then(res=>{
+        this.dataDetails = res.data()
+        this.description = this.dataDetails.description;
+        this.source = this.dataDetails.source;
+        this.price = this.dataDetails.price;
+        this.date = this.dataDetails.date.toDate();
+        this.itemID = itemID
+      }, err =>{
+        console.log(err.message);
+      })
+    })
+  }
 
-  // }
+  
+  updateUserIncome(description:string, source:string, price:number, date:any, userId:string, incomeId:string ){
+    console.log('Calling update income with userid:', this.userID, 'and the income id is:', incomeId );
+    this.incomeService.editUserIncome(description, source, price, date, userId, incomeId).then(res=>{
+      this.loading = true
+      this.hideEditDialog()
+    }, err =>{
+      console.log(err.message);
+    })
+  }
 
+
+
+  deleteUserIncome(userId:string, incomeId:string){
+    this.incomeService.deleteUerIncome(userId, incomeId).then(err =>{
+      console.log('Income has been deleted');
+    }, err => {
+      console.log(err.message);
+      
+    })
+  }
+
+  
   loadIncomeByID(id:string){
     this.activatedRoute.paramMap.subscribe(params => {
       this.itemID = params.get('id');
@@ -113,8 +153,6 @@ export class IncomeComponent implements OnInit {
       console.log(this.dataDetails);
      })
    });
-
-   this.editIsHidden = false;
   }
 
 
@@ -132,7 +170,7 @@ export class IncomeComponent implements OnInit {
         console.log('no user');
       }
     })
-} 
+  } 
 
 
   isEmailVerified(){
@@ -159,10 +197,4 @@ export class IncomeComponent implements OnInit {
       
     })
   }
-
- 
-
-  
-
-
 }
