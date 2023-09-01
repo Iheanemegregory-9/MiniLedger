@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, doc, getDoc, updateDoc, query, where, Timestamp } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, getDoc, updateDoc, query, where, Timestamp, deleteDoc } from '@angular/fire/firestore';
 import { Auth, user } from '@angular/fire/auth';
 
 @Injectable({
@@ -51,6 +51,29 @@ export class IncomeService {
    const userRes = collection(this.firestore, `Users/${id}/Income`);
    const userIncomeData = collectionData(userRes, {idField: 'id'})
    return userIncomeData
+  }
+
+  getUserIncomeById(userId:string, incomeId:string){
+    const userRes = collection(this.firestore, `Users/${userId}/Income`);
+   const userIncomeData = doc(userRes, incomeId)
+   return getDoc(userIncomeData)
+  }
+
+  editUserIncome(description:string, source:string, price:number, date:any, userId:string, incomeId:string){
+    const userRes = collection(this.firestore, `Users/${userId}/Income`);
+    const incomeRef = doc(userRes, incomeId)
+   return updateDoc(incomeRef, {
+      description,
+      source,
+      price,
+      date
+    });
+  }
+
+  deleteUerIncome(userId:string, incomeId:string){
+  const userRes = collection(this.firestore, `Users/${userId}/Income`);
+   const incomeRef = doc(userRes, incomeId)
+   return deleteDoc(incomeRef)
   }
 
 
