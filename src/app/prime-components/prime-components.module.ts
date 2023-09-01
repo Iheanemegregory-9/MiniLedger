@@ -21,6 +21,11 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { SkeletonModule } from 'primeng/skeleton'; 
 import { PasswordModule } from 'primeng/password'; 
+import { DividerModule } from 'primeng/divider';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+
 
 
 
@@ -51,7 +56,11 @@ import { PasswordModule } from 'primeng/password';
     DynamicDialogModule,
     DropdownModule,
     SkeletonModule,
-    PasswordModule
+    PasswordModule,
+    DividerModule,
+    ConfirmPopupModule,
+    InputTextareaModule,
+    ScrollPanelModule
   ],
   exports:[
     ButtonModule,
@@ -74,7 +83,11 @@ import { PasswordModule } from 'primeng/password';
     DynamicDialogModule,
     DropdownModule,
     SkeletonModule,
-    PasswordModule
+    PasswordModule,
+    DividerModule,
+    ConfirmPopupModule,
+    InputTextareaModule,
+    ScrollPanelModule
   ]
 })
 export class PrimeComponentsModule { }
