@@ -23,8 +23,6 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 import { GridModule, FilterService, PagerModule, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { InvoiceDetailsComponent } from './data-details/invoice-details/invoice-details.component';
-import { ExpenseDetailsComponent } from './data-details/expense-details/expense-details.component';
 
 @NgModule({
   declarations: [
@@ -38,9 +36,7 @@ import { ExpenseDetailsComponent } from './data-details/expense-details/expense-
     ContactComponent,
     HeaderComponent,
     ComingSoonComponent,  
-    ForgotPasswordComponent,
-    InvoiceDetailsComponent,
-    ExpenseDetailsComponent
+    ForgotPasswordComponent
   ],
   imports: [ 
     BrowserModule,
