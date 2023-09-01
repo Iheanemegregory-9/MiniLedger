@@ -20,6 +20,7 @@ export class ExpensesComponent implements OnInit {
   category!:string
   price!:number  
   date!:Date
+  itemID!:any;
   formatedDate!:Date
   loading:boolean = true;
   tableItem!:any[];
@@ -27,6 +28,7 @@ export class ExpensesComponent implements OnInit {
   isVerified = true; 
   userID:any; 
   productDialog: boolean = false;
+  editExpenseDialog: boolean = false;
 
   btnText = 'Add'
 
@@ -63,21 +65,6 @@ export class ExpensesComponent implements OnInit {
   }
 
 
-  confirm(event: Event) {
-    this.confirmationService.confirm({
-        target: event.target as EventTarget,
-        message: 'Are you sure that you want to proceed?',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
-        },
-        reject: () => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-        }
-    });
-}
-
-
   show(){
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'your new expense has been added' })
   }
@@ -88,7 +75,9 @@ export class ExpensesComponent implements OnInit {
 
 hideDialog() {
   this.productDialog = false;
-  // this.submitted = false;
+}
+hideEditDialog(){
+  this.editExpenseDialog = false
 }
   
   addNewUserExpense(description:string, category:string, price:number, date:any, id:string){
@@ -105,26 +94,53 @@ hideDialog() {
     })
   }
 
-  deleteProduct() {
-    this.confirmationService.confirm({
-        message: 'Are you sure you want to delete this record'  + '?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-        }
-    });
-}
-
   getUserExpenses(id:string){
     this.expenseService.getUserExpense(id).subscribe(res =>{
       this.tableItem = res;
-      // this.tableItem.forEach((expense) =>{
-      //  this.formatedDate = expense.date.toDate();
-      // })
       this.loading = false
     }, err =>{
       console.log(err);
+    })
+  }
+
+
+  openEditDialog(userId:string, itemID:string){
+    this.editExpenseDialog = true;
+    this.activatedRoute.paramMap.subscribe(param =>{
+      this.itemID = param.get('id')
+     this.expenseService.getUserExpenseById(userId, itemID).then(res =>{
+      this.dataDetails = res.data()
+        this.description = this.dataDetails.description;
+        this.category = this.dataDetails.category;
+        this.price = this.dataDetails.price;
+        this.date = this.dataDetails.date.toDate();
+        this.itemID = itemID
+     }, err =>{
+      console.log(err.message);
+     })
+     
+    })
+  }
+
+  updateUserExpense(description:string, category:string, price:number, date:any, userId:string, incomeId:string ){
+    console.log('Calling update income with userid:', this.userID, 'and the income id is:', incomeId );
+    this.expenseService.editUserIncome(description, category, price, date, userId, incomeId).then(res=>{
+
+      console.log(res);
+      
+      this.loading = true
+      this.hideEditDialog()
+    }, err =>{
+      console.log(err.message);
+    })
+  }
+
+  deleteUserIncome(userId:string, expenseId:string){
+    this.expenseService.deleteUerExpense(userId, expenseId).then(err =>{
+      console.log('Expense has been deleted');
+    }, err => {
+      console.log(err.message);
+      
     })
   }
 

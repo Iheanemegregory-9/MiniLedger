@@ -70,20 +70,8 @@
         </div>
     </div>
 </div>
-        
-  
-
-
 
 <!-- add new expense dialog form -->
-
-
-
-
-
-
-
-
 <div class="card flex justify-content-center px-6">
     <p-dialog [(visible)]="productDialog" [style]="{ width: '550px' }" header="Expense Details" [modal]="true" [maximizable]="true" styleClass="p-fluid" >
         <ng-template pTemplate="content">
@@ -111,6 +99,38 @@
             <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
             <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addNewUserExpense(description, category, price, date, userID)" [label]="btnText" [loading]="loading"></button>
         </ng-template>
+    </p-dialog>
+</div>
+
+<!-- edit Expense -->
+
+<div class="card flex justify-content-center px-6">
+    <p-dialog [(visible)]="editExpenseDialog" [style]="{ width: '550px'}" header="Income Details" [modal]="true" [maximizable]="true" styleClass="p-fluid" >
+        <ng-template pTemplate="content"> 
+            <div class="field">
+                <label for="name">Description</label>
+                <textarea id="description" pInputTextarea [(ngModel)]="description" required rows="3" cols="10"></textarea>
+                <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
+            </div>
+            <div class="field">
+                <label for="category">Category</label>
+                <input type="text" pInputText id="name" [(ngModel)]="category" required autofocus />
+            </div>
+            <div class="field">
+                <label for="price">Price</label>
+                <p-inputNumber inputId="integeronly" [(ngModel)]="price"> </p-inputNumber>
+            </div>
+
+            <div class="field">
+                <label for="date">Date</label>
+                <p-calendar [(ngModel)]="date" [inline]="true"  [showWeek]="true" [showIcon]="true"></p-calendar>
+            </div>
+        </ng-template>
+    
+        <ng-template pTemplate="footer" >
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideEditDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateUserExpense(description, category, price, date, userID, itemID)" label="Edit" [loading]="loading"></button>
+        </ng-template> 
     </p-dialog>
 </div>
 
@@ -153,8 +173,8 @@
                   <td *ngIf="!loading">{{ product.price | currency: 'NGN' }}</td>
                   <td *ngIf="!loading">{{ product.date.toDate() | date}}</td>
                 <td *ngIf="!loading" class="flex justify-content-around">
-                    <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-text"></button>
-                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-text text-red-600"></button>
+                    <button pButton pRipple label="Edit" (click)="openEditDialog(userID, product.id)" icon="pi pi-pencil" class="p-button-text"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-text text-red-600" (click)="deleteUserIncome(userID, product.id)"></button>
                 </td>
             </ng-container>
             
@@ -188,7 +208,7 @@
     </ul>
     <div class="w-6 md:w-2 flex justify-content-end flex-column">
         <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-text"></button>
-        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-text text-red-600"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-text text-red-600" (click)="deleteUserIncome(userID, data.id)"></button>
     </div>
 </div>
 <p-divider layout="horizontal">
