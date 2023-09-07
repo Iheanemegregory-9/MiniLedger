@@ -81,7 +81,7 @@ hideEditDialog(){
 
   addNewUserIncome(description:string, source:string, price:number, date:any, id:string){
     this.loading = true
-    this.btnText = 'adding new expense'
+    this.btnText = 'adding new income'
     this.incomeService.setUserIncome(description, source, price, date, id).then(res =>{
       console.log(res);
       console.log('User income data added:' +  description, source, price, date); 
